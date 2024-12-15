@@ -1,36 +1,15 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Mood Atlas:
+"Chart your feelings, discover your destination."
 
-## Getting Started
+Summary:
+This app has a front end in react and nextjs using google places api we get places near the user then we feed
+this into our python AI backend along with the user promt we them use chat gpt's llm to generate a place for
+the user to visit, we return the cords wchich we get from a json file given by google places api, the gpt promt
+uses text embeddings along with a formatted output to give the best output for where the user should go, 
+and it returns the cordinates of the place. this set of cordinates is displayed on a map using google maps api
+and we uses places api agai nto get a pic / reviews for a card to be displayed giving quick context on the place
+and a hyper link to open in maps. the backend also includes a springboot app that uses postman and sql to store user info,
+this can be used to get the users info like name and email this is stored i a sql data base using postman,
+this is then linked to the users data like favorite places whihc is linked to there email and stored in a firebase database.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

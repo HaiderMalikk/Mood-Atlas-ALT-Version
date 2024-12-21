@@ -100,23 +100,22 @@ html, body {
   position: relative; /* Required for Google Maps */
   border: 5px solid #000000; /* Add a solid border with black color */
   border-radius: 5px; /* Optional: add rounded corners to the border */
-  overflow: hidden; /* Prevent overflow that could hide the overlay */
 }
 
 .map-overlay-box {
-  position: absolute; /* Position absolutely inside the container */
-  bottom: 20px; /* Place the box slightly above the very bottom */
-  left: 50%; /* Center the box horizontally */
-  transform: translateX(-50%); /* Ensure exact centering */
-  width: 80%; /* Smaller width, adjust to your preference */
-  max-width: 400px; /* Optional: limit the maximum width */
-  background-color: rgba(0, 0, 0, 0.7); /* Dark background with transparency */
+  position: absolute; /* Position absolutely inside the map container */
+  bottom: 40px; /* Slightly above the bottom */
+  left: 56%; /* Center horizontally */
+  width: 50%; /* Increase the width to make the box longer */
+  max-width: 500px; /* Optional: increase max-width */
+  height: 210px; /* Reduce the height to make it shorter */
+  background-color: rgb(0, 0, 0); /* Dark background with transparency */
   color: white;
-  padding: 15px; /* Padding for the content */
+  padding: 10px 20px; /* Reduce the padding to make it shorter */
   box-sizing: border-box;
   border-radius: 8px; /* Rounded corners for the box */
-  z-index: 10; /* Ensure it appears on top of the map */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: adds a shadow to the card */
+  z-index: 10; /* Ensure the overlay is on top of the map */
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3); /* Optional: adds shadow to the card */
 }
 
 .map-title {
@@ -126,10 +125,10 @@ html, body {
 }
 
 .map-image {
-  width: 100%;
-  height: auto;
+  width: 30%;
   margin-bottom: 10px; /* Add margin at the bottom */
   border-radius: 5px; /* Optional: rounded corners for the image */
+  
 }
 
 .map-description {

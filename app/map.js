@@ -24,6 +24,14 @@ export function Map() {
 
             // setup map
             const map = new Map(mapRef.current, googlemapsoptions);
+            
+            // setup marker
+            const { Marker } = await loader.importLibrary('marker'); // load the marker library
+            // put the marker on the map
+            const marker = new Marker({
+                map: map, // pass in the map
+                position: position, // pass in the position same as the map
+            });
         }
         getmap(); // get map after calling the function
 

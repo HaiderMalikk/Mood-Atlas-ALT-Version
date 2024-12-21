@@ -38,15 +38,3 @@ export function Map() {
   return <div className="map-container" ref={mapRef} />;
 }
 
-export default function Page() {
-  return (
-    <div className="container">
-      <div className="left">
-        <p>Left Content</p>
-      </div>
-      <div className="right">
-        <Map />
-      </div>
-    </div>
-  );
-}

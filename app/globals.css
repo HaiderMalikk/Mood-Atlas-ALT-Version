@@ -1,37 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Header styles */
+.header-links {
+  height: 40px; /* Fixed height for the header */
+  flex-shrink: 0; /* Prevent header from shrinking */
+  background-color: #272c30;
+  color: white;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.header-title {
+  text-align: center; 
+  margin: 20px 0;    
+}
+
+.header h1 {
+  font-size: 2.5rem;  
+  font-weight: bold;  
+}
+
+.about-header {
+  text-align: left; 
+  margin: 10px 0;     
+}
+.github-header {
+  text-align: right; 
+  margin: 10px 0;     
+}
+.learnmore-header {
+  text-align: right; 
+  margin: 10px 0;     
+}
+
+.button {
+  background-color: #272c30; /* Blue button */
+  color: white;
+  padding: 5px 10px; /* Smaller padding */
+  font-size: 14px; /* Smaller text */
+  border: none;
+  border-radius: 3px; /* Smaller rounded corners */
+  cursor: pointer;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #ffa114; /* on hover */
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Prevent unwanted scrolling */
+  box-sizing: border-box; /* Include padding and border in dimensions */
+}
+
+
+
 .container {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center;    /* Center vertically */
-  gap: 20px;              /* Space between sections */
-  height: 100vh;          /* Full screen height */
+  flex-wrap: wrap; /* Allows wrapping for smaller screens */
+  justify-content: space-between; /* Ensure sections are spaced */
+  height: 100vh; /* Full screen height */
 }
 
-.left,
-.right {
-  width: 45%; /* Adjust as needed */
+.left {
+  flex: 1; /* Take up one part of the container */
   text-align: center; /* Center content inside */
+  padding-left: 20px; /* Add padding for content inside */
+
 }
+
+.right {
+  flex: 1; /* Maintain equal space distribution */
+  display: flex; /* Flexbox layout */
+  align-items: center; /* Vertically center the content */
+  justify-content: center; /* Horizontally center the content */
+  padding: 20px; /* Add consistent padding */
+  box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
+  padding-left: 10px;
+  padding-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 75px;
+  margin-right: -30px;
+  margin-top: -10px;
+}
+
 
 .map-container {
-  width: 100%;
-  height: 400px; /* Set a fixed height */
-  margin: auto; /* Center horizontally */
+  flex-grow: 1; /* Allows the map to fill all available space */
+  width: calc(100% - 10px); /* Adjust width with padding */
+  height: calc(100% - 20px); /* Adjust height with padding */
+  margin: 10px; /* Adds equal padding around the map */
   position: relative; /* Required for Google Maps */
+  border: 5px solid #000000; /* Add a solid border with black color */
+  border-radius: 5px; /* Optional: add rounded corners to the border */
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column; /* Stack vertically */
-    gap: 10px;
+  .header-links {
+    flex-direction: column; /* Stack header items vertically */
+    padding: 10px; /* Adjust padding for small screens */
   }
-
-  .left,
-  .right {
-    width: 100%; /* Full width for smaller screens */
-  }
-
-  .map-container {
-    height: 50vh; /* Adjust height for mobile view */
+  .header-title h1 {
+    font-size: 2rem; /* Adjust font size for smaller screens */
   }
 }

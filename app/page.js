@@ -6,7 +6,11 @@ const WelcomePage = () => {
   return (
     <div className="container">
       <div className="left">
-        <h1>Welcome to Mood Atlas</h1>
+        <div className="header-title">
+          <header className="header-title">
+            <h1>Welcome to Mood Atlas</h1>
+          </header>
+        </div>
         <div className="input-container">
           <label htmlFor="mood-input">How do you feel?</label>
           <input type="text" id="mood-input" name="mood-input" />

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --orange: #FFA500; /* signiture color */
+}
+
 /* Header styles */
 .header-links {
   height: 40px; /* Fixed height for the header */
@@ -14,8 +18,10 @@
 }
 
 .header-title {
+  font: 1.5rem / 1.5rem 'Inter', sans-serif;
   text-align: center; 
-  margin: 20px 0;    
+  margin-top: -20px;
+  margin-bottom: 50px;
 }
 
 .header h1 {
@@ -48,8 +54,43 @@
 }
 
 .button:hover {
-  background-color: #ffa114; /* on hover */
+  background-color: var(--orange); /* Darker blue on hover */
 }
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 50px; /* Space between input containers */
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-title {
+  font: 1rem / 1.5rem 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 5px; /* Add space between title and input box */
+  color: #333; /* Dark gray color for text */
+}
+
+.input-box {
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #ccc; /* Light gray border */
+  border-radius: 5px;
+  width: 100%; /* Full width of container */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.input-box:focus {
+  outline: none;
+  border-color: var(--orange); /* Highlighted border on focus */
+  box-shadow: 0 0 5px rgba(130, 121, 121, 0.5); /* Subtle blue glow */
+}
+
 
 html, body {
   margin: 0;
@@ -59,7 +100,6 @@ html, body {
   overflow: hidden; /* Prevent unwanted scrolling */
   box-sizing: border-box; /* Include padding and border in dimensions */
 }
-
 
 
 .container {
@@ -103,38 +143,53 @@ html, body {
 }
 
 .map-overlay-box {
-  position: absolute; /* Position absolutely inside the map container */
-  bottom: 40px; /* Slightly above the bottom */
-  left: 56%; /* Center horizontally */
-  width: 50%; /* Increase the width to make the box longer */
-  max-width: 500px; /* Optional: increase max-width */
-  height: 210px; /* Reduce the height to make it shorter */
-  background-color: rgb(0, 0, 0); /* Dark background with transparency */
+  position: absolute;
+  bottom: 40px;
+  left: 56%;
+  width: 50%;
+  max-width: 500px;
+  height: 210px;
+  background-color: rgb(0, 0, 0); /* Solid black background */
   color: white;
-  padding: 10px 20px; /* Reduce the padding to make it shorter */
+  padding: 10px 20px;
   box-sizing: border-box;
-  border-radius: 8px; /* Rounded corners for the box */
-  z-index: 10; /* Ensure the overlay is on top of the map */
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3); /* Optional: adds shadow to the card */
+  border-radius: 8px;
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+  display: flex; /* Make it a flex container */
+  align-items: center; /* Vertically center content */
+  justify-content: space-between; /* Space between text and image */
+}
+
+.map-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center; /* Align content vertically in the center */
+}
+
+.map-text {
+  flex: 1; /* Allow text to take up remaining space */
+  margin-right: 10px; /* Add spacing between text and image */
 }
 
 .map-title {
   font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 10px; /* Add margin at the bottom */
-}
-
-.map-image {
-  width: 30%;
-  margin-bottom: 10px; /* Add margin at the bottom */
-  border-radius: 5px; /* Optional: rounded corners for the image */
-  
+  margin-bottom: 5px; /* Reduce the gap between title and description */
 }
 
 .map-description {
   font-size: 0.9rem;
   line-height: 1.4;
 }
+
+.map-image {
+  width: 30%;
+  height: auto;
+  border-radius: 5px; /* Optional: rounded corners for the image */
+}
+
 
 @media (max-width: 768px) {
   .header-links {

@@ -12,10 +12,19 @@ const WelcomePage = () => {
             <h1>Welcome to Mood Atlas</h1>
           </header>
         </div>
-        <div className="input-container">
-          <label htmlFor="mood-input">How do you feel?</label>
-          <input type="text" id="mood-input" name="mood-input" />
-          <button className="submit-button">Submit</button>
+        <div className="input-group">
+          <div className="input-container">
+            <label htmlFor="mood-input" className="input-title">How do you feel?</label>
+            <input type="text" id="mood-input" name="mood-input" className="input-box" />
+          </div>
+          <div className="input-container">
+            <label htmlFor="want-input" className="input-title">What do you want to do?</label>
+            <input type="text" id="want-input" name="want-input" className="input-box" />
+          </div>
+          <div className="input-container">
+            <label htmlFor="like-input" className="input-title">What do you like to do?</label>
+            <input type="text" id="like-input" name="like-input" className="input-box" />
+          </div>
         </div>
       </div>
       <div className="right">

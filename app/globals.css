@@ -4,13 +4,15 @@
 
 :root {
   --orange: #FFA500; /* signiture color */
+  --backgroundcolor: #272c30; /* dark gray background */
 }
 
 /* Header styles */
 .header-links {
-  height: 40px; /* Fixed height for the header */
+  font: 1rem / 1.5rem 'Inter', sans-serif;
+  height: 45px; /* Fixed height for the header */
   flex-shrink: 0; /* Prevent header from shrinking */
-  background-color: #272c30;
+  background-color: var(--backgroundcolor); /* Dark gray background */
   color: white;
   justify-content: space-between;
   padding: 0 20px;
@@ -31,7 +33,7 @@
 
 .about-header {
   text-align: left; 
-  margin: 10px 0;     
+  margin: 10px;     
 }
 .github-header {
   text-align: right; 
@@ -43,7 +45,7 @@
 }
 
 .button {
-  background-color: #272c30; /* Blue button */
+  background-color: #272c30; /* button */
   color: white;
   padding: 5px 10px; /* Smaller padding */
   font-size: 14px; /* Smaller text */
@@ -54,7 +56,7 @@
 }
 
 .button:hover {
-  background-color: var(--orange); /* Darker blue on hover */
+  background-color: var(--orange); 
 }
 
 .input-group {
@@ -73,13 +75,13 @@
   font-size: 1rem;
   font-weight: bold;
   margin-bottom: 5px; /* Add space between title and input box */
-  color: #333; /* Dark gray color for text */
+  color: var(--backgroundcolor); /* Dark gray color for text */
 }
 
 .input-box {
   padding: 10px;
   font-size: 1rem;
-  border: 2px solid #ccc; /* Light gray border */
+  border: 2px solid var(--backgroundcolor); /* Light gray border */
   border-radius: 5px;
   width: 100%; /* Full width of container */
   box-sizing: border-box; /* Include padding in width calculation */
@@ -88,7 +90,86 @@
 .input-box:focus {
   outline: none;
   border-color: var(--orange); /* Highlighted border on focus */
-  box-shadow: 0 0 5px rgba(130, 121, 121, 0.5); /* Subtle blue glow */
+  box-shadow: 0 0 5px rgba(130, 121, 121, 0.8); /* Subtle  glow */
+}
+
+.input-box::placeholder {
+  color: #ccc; /* Light gray color for the placeholder text */
+  font-style: italic; /* Optional: italicize the placeholder */
+}
+
+.slider-container {
+  padding-left: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  width: 300px; /* Set a fixed width for the slider */
+  height: 0px;
+}
+
+.slider-title {
+  font: 1rem / 1.5rem 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--backgroundcolor);
+  margin: 0;
+}
+
+.slider {
+  height: 8px;
+  flex: 1; /* Takes up the remaining space */
+  background: #ccc;
+  border-radius: 5px;
+  appearance: none;
+  outline: none;
+  margin: 0 auto; /* Center it horizontally */
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: var(--backgroundcolor);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: var(--backgroundcolor);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.radius-value {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--backgroundcolor);
+}
+
+.button-container {
+  margin-top: 50px;
+  text-align: center; /* Center-align the button */
+}
+
+.submit-button {
+  margin-top: 25px;
+  font: 1rem / 1.5rem 'Inter', sans-serif;
+  padding: 20px 80px;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  background-color: var(--backgroundcolor); 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: var(--orange); /*on hover */
 }
 
 
@@ -123,7 +204,6 @@ html, body {
   justify-content: center; /* Horizontally center the content */
   padding: 20px; /* Add consistent padding */
   box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
-  padding-left: 10px;
   padding-right: 0px;
   padding-top: 0px;
   padding-bottom: 75px;
@@ -149,7 +229,7 @@ html, body {
   width: 50%;
   max-width: 500px;
   height: 210px;
-  background-color: rgb(0, 0, 0); /* Solid black background */
+  background-color: #272c30; /* Solid black background */
   color: white;
   padding: 10px 20px;
   box-sizing: border-box;

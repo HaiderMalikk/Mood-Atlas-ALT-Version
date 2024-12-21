@@ -19,7 +19,7 @@ export function LocationCard() {
           </div>
           <img
             className="map-image"
-            src="path/to/your/image.jpg"
+            src="../assets/logo.png" // ! FIX
             alt="Place Image"
           />
         </div>

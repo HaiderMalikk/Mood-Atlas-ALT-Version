@@ -6,35 +6,50 @@ import { Loader } from '@googlemaps/js-api-loader';
 export function Map() {
   const mapRef = useRef(null); // use ref so that the map can render itself
 
-  // init the map using useEffect
   useEffect(() => {
-    // some library functions are async, so we need to use async here for the get map function
     const getMap = async () => {
       console.log('getting map');
-      // loader (specifies map details and key)
+
+      // Check if the API key and map ID are present
+      if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || !process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID) {
+        console.error('Google Maps API key or Map ID is missing');
+        return;
+      }
+
+      // Loader (specifies map details and key)
       const loader = new Loader({
         apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-        version: 'weekly', // map updates weekly
+        version: 'weekly', // Map updates weekly
       });
-      const { Map } = await loader.importLibrary('maps'); // load the map library
-      const position = { lat: 43.642693, lng: -79.3871189 }; // position of the map (center)
-      const googleMapsOptions = { center: position, zoom: 14, mapId: process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID }; // map options
 
-      // setup map
-      const map = new Map(mapRef.current, googleMapsOptions);
-      
-      // setup marker
-      const { Marker } = await loader.importLibrary('marker'); // load the marker library
-      // put the marker on the map
-      const marker = new Marker({
-        map: map, // pass in the map
-        position: position, // pass in the position same as the map
-      });
+      // Dynamically load the Google Maps library
+      const { Map } = await loader.importLibrary('maps');
+      const position = { lat: 43.642693, lng: -79.3871189 }; // Position of the map (center)
+
+      // Google map options
+      const googleMapsOptions = {
+        center: position,
+        zoom: 14,
+        mapId: process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID,
+      };
+
+      // Ensure the map container is correctly sized and visible
+      if (mapRef.current) {
+        const map = new Map(mapRef.current, googleMapsOptions);
+        const { Marker } = await loader.importLibrary('marker');
+        new Marker({
+          map: map,
+          position: position,
+        });
+      } else {
+        console.error('Map container not found!');
+      }
     };
-    getMap(); // get map after calling the function
 
-  }, []); // only run this once
-  
-  return <div className="map-container" ref={mapRef} />;
+    getMap(); // Get the map after calling the function
+  }, []); // Only run this once
+
+  return (
+      <div className="map-container" ref={mapRef}/>
+  );
 }
-

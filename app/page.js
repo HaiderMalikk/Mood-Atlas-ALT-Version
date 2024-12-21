@@ -1,15 +1,20 @@
-'use client';
 import React from 'react';
-import { useState, useEffect } from 'react';
-import {Map} from './map';
+import { Map } from './map';
+import './globals.css';
 
 const WelcomePage = () => {
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Welcome to Mood Atlas</h1>
-      <p>Chart your feelings, discover your destination.</p>
-      <div className='map-container'>
-        <Map />  
+    <div className="container">
+      <div className="left">
+        <h1>Welcome to Mood Atlas</h1>
+        <div className="input-container">
+          <label htmlFor="mood-input">How do you feel?</label>
+          <input type="text" id="mood-input" name="mood-input" />
+          <button className="submit-button">Submit</button>
+        </div>
+      </div>
+      <div className="right">
+        <Map/>
       </div>
     </div>
   );

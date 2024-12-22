@@ -1,4 +1,8 @@
 'use client';
+
+import Image from 'next/image';
+import logo from '../assets/logo.png';
+
 export function LocationCard() {
   return (
     <div>
@@ -17,11 +21,7 @@ export function LocationCard() {
               This is a description of the place. Add details here.
             </p>
           </div>
-          <img
-            className="map-image"
-            src="../assets/logo.png" // ! FIX
-            alt="Place Image"
-          />
+          <Image className='map-image' src={logo} alt='logo'/>
         </div>
       </div>
     </div>

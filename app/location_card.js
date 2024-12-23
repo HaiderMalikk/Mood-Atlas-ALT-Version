@@ -6,7 +6,7 @@ import logo from '../assets/logo.png';
 export function LocationCard() {
   return (
     <div>
-      {/* Overlay box */}
+      {/* Overlay box  ontop of the map, this file retusn the box with the content */}
       <div className="map-overlay-box">
         <div className="map-content">
           <div className="map-text">

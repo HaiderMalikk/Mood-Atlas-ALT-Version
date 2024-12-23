@@ -35,8 +35,9 @@ export function Map() {
 
       // Ensure the map container is correctly sized and visible
       if (mapRef.current) {
-        const map = new Map(mapRef.current, googleMapsOptions);
-        const { Marker } = await loader.importLibrary('marker');
+        const map = new Map(mapRef.current, googleMapsOptions); // make new map
+        const { Marker } = await loader.importLibrary('marker'); // create a marker for the map
+        // specify the properties of the marker
         new Marker({
           map: map,
           position: position,
@@ -50,6 +51,7 @@ export function Map() {
   }, []); // Only run this once
 
   return (
+    // this file returns the rendered map wrapped in a div
       <div className="map-container" ref={mapRef}/>
   );
 }

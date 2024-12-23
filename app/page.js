@@ -4,12 +4,15 @@ import { Map } from "./map";
 import { LocationCard } from "./location_card";
 import "./globals.css";
 
+// main component/ page
 const WelcomePage = () => {
+  // state variables
   const [mood, setMood] = useState("");
   const [activity, setActivity] = useState("");
   const [hobby, setHobby] = useState("");
   const [radius, setRadius] = useState(25);
 
+  // handle button click (submit hence we must start the process)
   const handleButtonClick = () => {
     console.log("Mood:", mood);
     console.log("Activity:", activity);
@@ -17,14 +20,19 @@ const WelcomePage = () => {
     console.log("Radius:", radius);
   };
 
+  // main JSX
   return (
+    // main container
     <div className="container">
+      {/* left side */}
       <div className="left">
+        {/* header */}
         <div className="header-title">
           <header className="header-title">
             <h1>Welcome to Mood Atlas</h1>
           </header>
         </div>
+        {/* input fields */}
         <div className="input-group">
           <div className="input-container">
             <label htmlFor="mood-input" className="input-title">
@@ -81,15 +89,17 @@ const WelcomePage = () => {
             <span className="radius-value">{radius} km</span>
           </div>
         </div>
+        {/* submit button */}
         <div className="button-container">
           <button className="submit-button" onClick={handleButtonClick}>
             Submit
           </button>
         </div>
       </div>
+      {/* right side */}
       <div className="right">
-        <Map />
-        <LocationCard />
+        <Map /> {/* map component */}
+        <LocationCard /> {/* location card component ontop of map */}
       </div>
     </div>
   );

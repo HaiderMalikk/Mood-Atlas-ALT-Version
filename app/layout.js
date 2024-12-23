@@ -21,6 +21,7 @@ const Layout = ({ children }) => {
             </div>
           </nav>
         </header>
+        {/* solid black line divider */}
         <div style={{ borderBottom: '5px solid black', marginBottom: '20px' }}></div>
         <main>
           {children}

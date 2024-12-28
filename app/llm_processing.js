@@ -1,25 +1,26 @@
 'use client';
 import { fetchPlaces } from "./places_fetch";
 
-export async function processInputs(mood, hobby, activity, userCoordinates) {
+export async function processInputs(mood, hobby, activity, userCoordinates, radius) {
   try {
     // Fetch places using the helper function
-    const places = await fetchPlaces(userCoordinates);
+    const places = await fetchPlaces(userCoordinates, radius);
+    console.log("Places received at llm");
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
     // Check if places were retrieved
     if (places && places.results && places.results.length > 0) {
-      // Extract details for the first place
-      const firstPlace = places.results[0];
+      // Extract details for place
+      const firstPlace = places.results[1];
       const title = firstPlace.name || "No place found for your mood.";
       const address = firstPlace.vicinity || "No place found for your hobby.";
       const photoReference = firstPlace.photos && firstPlace.photos[0]?.photo_reference 
                               ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${firstPlace.photos[0].photo_reference}&key=${apiKey}` 
                               : "No photo available.";
 
-      console.log(`Place received: Name - ${title}, Address - ${address}, Photo URL - ${photoReference}`);
+      console.log(`Final Processed Place: Name - ${title}, Address - ${address}, Photo URL - ${photoReference}`);
 
-      return { name: title, address, photoReference };
+      return { name: title, address: address, photoReference: photoReference }; 
     } else {
       console.warn("No places found for the given coordinates.", places);
       return {

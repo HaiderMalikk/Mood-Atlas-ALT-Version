@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
 
-export async function fetchPlaces(userCoordinates) {
+export async function fetchPlaces(userCoordinates, radius) {
   const { lat, lng } = userCoordinates;
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
@@ -9,7 +9,7 @@ export async function fetchPlaces(userCoordinates) {
     const response = await axios.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json`, {
       params: {
         location: `${lat},${lng}`,
-        radius: 500,
+        radius: radius * 1000, // Convert to meters
         key: apiKey
       },
       headers: {
@@ -18,6 +18,8 @@ export async function fetchPlaces(userCoordinates) {
       }
     });
 
+    console.log('Fetched places: Location -', userCoordinates, 'Radius -', radius);
+    console.log('Places being sent to llm in json:', response.data);
     return response.data; // Return the places data
   } catch (error) {
     console.error('Error fetching places:', error);

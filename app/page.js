@@ -23,8 +23,8 @@ const WelcomePage = () => {
 
   const handleButtonClick = async () => {
     // Process inputs using llmprocessing.js
-    const result = await processInputs(mood, hobby, activity, userCoordinates);
-    console.log("Processed data:", result);
+    const result = await processInputs(mood, hobby, activity, userCoordinates, radius);
+    console.log("Processed Place data recived at main page:", result);
 
     // Set the processed data to state
     setProcessedData({

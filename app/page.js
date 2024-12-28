@@ -6,23 +6,24 @@ import { processInputs } from "./llmprocessing";
 import "./globals.css";
 
 const WelcomePage = () => {
-  // state variables
   const [mood, setMood] = useState("");
   const [activity, setActivity] = useState("");
   const [hobby, setHobby] = useState("");
   const [radius, setRadius] = useState(25);
 
-  // state for displaying processed data
+  // State for user coordinates (mocked for now)
+  const [userCoordinates] = useState({ lat: 43.642693, lng: -79.3871189 });
+
+  // State for displaying processed data
   const [processedData, setProcessedData] = useState({
     title: "",
     description: "",
     picture: "",
   });
 
-  // handle button click
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     // Process inputs using llmprocessing.js
-    const result = processInputs(mood, hobby, activity);
+    const result = await processInputs(mood, hobby, activity, userCoordinates);
 
     // Set the processed data to state
     setProcessedData(result);
@@ -30,7 +31,7 @@ const WelcomePage = () => {
 
   return (
     <div className="container">
-      {/* left side */}
+      {/* Left Side */}
       <div className="left">
         <div className="header-title">
           <header className="header-title">
@@ -99,9 +100,11 @@ const WelcomePage = () => {
           </button>
         </div>
       </div>
-      {/* right side */}
+      {/* Right Side */}
       <div className="right">
-        <Map />
+        <Map 
+          userCoordinates={userCoordinates}
+        />
         <LocationCard
           title={processedData.title}
           description={processedData.description}

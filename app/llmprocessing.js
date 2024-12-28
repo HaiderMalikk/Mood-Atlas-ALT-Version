@@ -1,23 +1,36 @@
-// llmprocessing.js
-export function processInputs(mood, hobby, activity) {
-    let title = "Default Title";
-    let description = "Default Description";
-    let picture = "Default Picture";
-  
-    // Process the inputs
-    if (mood) {
-      title = `Your mood is: ${mood}`;
+'use client';
+import { fetchPlaces } from "./placesfetch";
+
+export async function processInputs(mood, hobby, activity, userCoordinates) {
+  try {
+    // Fetch places using the helper function
+    const places = await fetchPlaces(userCoordinates);
+
+    // Check if places were retrieved
+    if (places && places.length > 0) {
+      const title = places[0]?.name || "No place found for your mood.";
+      const description = places[1]?.name || "No place found for your hobby.";
+      const picture = places[2]?.name || "No place found for your activity.";
+
+      console.log(
+        `Place received: Mood - ${title}, Hobby - ${description}, Activity - ${picture}`
+      );
+
+      return { title, description, picture };
+    } else {
+      console.warn("No places found for the given coordinates.");
+      return {
+        title: `No places found for your mood: "${mood}".`,
+        description: `No places found for your hobby: "${hobby}".`,
+        picture: `No places found for your activity: "${activity}".`,
+      };
     }
-  
-    if (hobby) {
-      description = `Your hobby is: ${hobby}`;
-    }
-  
-    if (activity) {
-      picture = `Your activity is: ${activity}`;
-    }
-  
-    // Return the processed results
-    return { title, description, picture };
+  } catch (error) {
+    console.error("Error processing inputs in processInputs:", error);
+    return {
+      title: `Error retrieving places for your mood: "${mood}".`,
+      description: `Error retrieving places for your hobby: "${hobby}".`,
+      picture: `Error retrieving places for your activity: "${activity}".`,
+    };
   }
-  
+}

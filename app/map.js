@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Loader } from '@googlemaps/js-api-loader';
 
-export function Map() {
+export function Map({userCoordinates}) {
   const mapRef = useRef(null); // use ref so that the map can render itself
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export function Map() {
 
       // Dynamically load the Google Maps library
       const { Map } = await loader.importLibrary('maps');
-      const position = { lat: 43.642693, lng: -79.3871189 }; // Position of the map (center)
+      const position = userCoordinates; // Position of the map (center)
 
       // Google map options
       const googleMapsOptions = {

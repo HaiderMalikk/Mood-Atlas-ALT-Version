@@ -1,20 +1,25 @@
 'use client';
 import { fetchPlaces } from "./places_fetch";
-import React, { useState, useEffect } from "react";
+import { fetchFlaskData } from "./flask_llm_call";
 
 export async function processInputs(mood, hobby, activity, userCoordinates, radius) {
   try {
     // Fetch places using the helper function
     const places = await fetchPlaces(userCoordinates, radius);
-    console.log("Places received at llm");
+    console.log("Places received at places processing");
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-    // send data and recive answer from flask
-
-    console.log("Flask called");
 
     // Check if places were retrieved
     if (places && places.results && places.results.length > 0) {
+      console.log("sending places to flask for response");
+      const flaskResult = await fetchFlaskData(places);
+
+      if (flaskResult !== null) {
+        console.log("data from Flask backend recived, place proccessing done, place number:", flaskResult);
+      } else {
+        console.warn("No valid response from Flask.");
+      }
+
       // Extract details for place
       const firstPlace = places.results[1];
       const title = firstPlace.name || "No place found for your mood.";
@@ -26,6 +31,7 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
       console.log(`Final Processed Place: Name - ${title}, Address - ${address}, Photo URL - ${photoReference}`);
 
       return { name: title, address: address, photoReference: photoReference }; 
+
     } else {
       console.warn("No places found for the given coordinates.", places);
       return {

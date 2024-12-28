@@ -36,12 +36,14 @@ export function Map({userCoordinates}) {
       // Ensure the map container is correctly sized and visible
       if (mapRef.current) {
         const map = new Map(mapRef.current, googleMapsOptions); // make new map
+        console.log('map created');
         const { Marker } = await loader.importLibrary('marker'); // create a marker for the map
         // specify the properties of the marker
         new Marker({
           map: map,
           position: position,
         });
+        console.log('Marker created');
       } else {
         console.error('Map container not found!');
       }

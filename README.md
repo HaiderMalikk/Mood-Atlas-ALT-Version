@@ -93,7 +93,7 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 <img src="./assets/latest.png" alt="Home" width="600" height="auto" />
 
 **TODO**: 
-- fix the json format to recive proper stuff (title, address, location pic is ok, get anything else too)
+post json to flask
+
 - featch user location (in page once initial, update everytime by bringing the variable from llm procces file) get new location from json 
-- fix readme indent
  

@@ -19,7 +19,7 @@ export async function fetchPlaces(userCoordinates, radius) {
     });
 
     console.log('Fetched places: Location -', userCoordinates, 'Radius -', radius);
-    console.log('Places being sent to llm in json:', response.data);
+    console.log('Places being sent to places processing in json format:', response.data);
     return response.data; // Return the places data
   } catch (error) {
     console.error('Error fetching places:', error);

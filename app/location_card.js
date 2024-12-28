@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import logo from '../assets/logo.png';
 
@@ -11,9 +9,15 @@ export function LocationCard({ title, description, picture }) {
           <div className="map-text">
             <h2 className="map-title">{title}</h2>
             <p className="map-description">{description}</p>
-            <p className="map-description">{picture}</p>
           </div>
-          <Image className="map-image" src={logo} alt="logo" />
+          {/*  Image component gets a valid src */}
+          <Image 
+            className="map-image" 
+            src={picture ? picture : logo} 
+            alt={title || 'Default Image'} 
+            width={300} // default width
+            height={200} // default height
+          />
         </div>
       </div>
     </div>

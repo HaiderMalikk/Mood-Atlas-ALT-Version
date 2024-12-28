@@ -24,3 +24,11 @@
 This combination of AI and real-time data creates a personalized experience, guiding users to destinations that match their feelings.
 
 ***** CURRENTLY UNDER DEVELOPMENT ***** (there will be slight changes in the future)
+TODO: 
+- propigate the radius var set by user to the llm procces file and from there to the places fetch to be set as a setting in the fetch
+- add a final log at the button where everything is displayed the 3 inputs + radius + procceced data + location + any other 
+- fix the json format to recive proper stuff (title, address, location pic is ok, get anything else too)
+- featch user location (in page once initial, update everytime by bringing the variable from llm procces file) get new location from json 
+
+once done:
+- set up python backend (django ?)

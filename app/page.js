@@ -11,22 +11,27 @@ const WelcomePage = () => {
   const [hobby, setHobby] = useState("");
   const [radius, setRadius] = useState(25);
 
-  // State for user coordinates (mocked for now)
+  // State for user coordinates (user location)
   const [userCoordinates] = useState({ lat: 43.642693, lng: -79.3871189 });
 
-  // State for displaying processed data
+  // State for displaying processed data currently a place holder
   const [processedData, setProcessedData] = useState({
-    title: "",
-    description: "",
+    title: "Start by Filling the inputs and then click submit",
+    address: "",
     picture: "",
   });
 
   const handleButtonClick = async () => {
     // Process inputs using llmprocessing.js
     const result = await processInputs(mood, hobby, activity, userCoordinates);
+    console.log("Processed data:", result);
 
     // Set the processed data to state
-    setProcessedData(result);
+    setProcessedData({
+      title: result.name,
+      address: result.address,
+      picture: result.photoReference,
+    });
   };
 
   return (
@@ -107,8 +112,8 @@ const WelcomePage = () => {
         />
         <LocationCard
           title={processedData.title}
-          description={processedData.description}
-          picture={processedData.picture}
+          description={processedData.address}
+          picture={processedData.picture || ""}
         />
       </div>
     </div>

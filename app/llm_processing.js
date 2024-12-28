@@ -1,5 +1,5 @@
 'use client';
-import { fetchPlaces } from "./placesfetch";
+import { fetchPlaces } from "./places_fetch";
 
 export async function processInputs(mood, hobby, activity, userCoordinates) {
   try {

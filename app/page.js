@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Map } from "./map";
 import { LocationCard } from "./location_card";
-import { processInputs } from "./llmprocessing";
+import { processInputs } from "./llm_processing";
 import "./globals.css";
 
 const WelcomePage = () => {

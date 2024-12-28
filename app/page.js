@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { Map } from "./map";
 import { LocationCard } from "./location_card";
+import { processInputs } from "./llmprocessing";
 import "./globals.css";
 
-// main component/ page
 const WelcomePage = () => {
   // state variables
   const [mood, setMood] = useState("");
@@ -12,27 +12,31 @@ const WelcomePage = () => {
   const [hobby, setHobby] = useState("");
   const [radius, setRadius] = useState(25);
 
-  // handle button click (submit hence we must start the process)
+  // state for displaying processed data
+  const [processedData, setProcessedData] = useState({
+    title: "",
+    description: "",
+    picture: "",
+  });
+
+  // handle button click
   const handleButtonClick = () => {
-    console.log("Mood:", mood);
-    console.log("Activity:", activity);
-    console.log("Hobby:", hobby);
-    console.log("Radius:", radius);
+    // Process inputs using llmprocessing.js
+    const result = processInputs(mood, hobby, activity);
+
+    // Set the processed data to state
+    setProcessedData(result);
   };
 
-  // main JSX
   return (
-    // main container
     <div className="container">
       {/* left side */}
       <div className="left">
-        {/* header */}
         <div className="header-title">
           <header className="header-title">
             <h1>Welcome to Mood Atlas</h1>
           </header>
         </div>
-        {/* input fields */}
         <div className="input-group">
           <div className="input-container">
             <label htmlFor="mood-input" className="input-title">
@@ -89,7 +93,6 @@ const WelcomePage = () => {
             <span className="radius-value">{radius} km</span>
           </div>
         </div>
-        {/* submit button */}
         <div className="button-container">
           <button className="submit-button" onClick={handleButtonClick}>
             Submit
@@ -98,8 +101,12 @@ const WelcomePage = () => {
       </div>
       {/* right side */}
       <div className="right">
-        <Map /> {/* map component */}
-        <LocationCard /> {/* location card component ontop of map */}
+        <Map />
+        <LocationCard
+          title={processedData.title}
+          description={processedData.description}
+          picture={processedData.picture}
+        />
       </div>
     </div>
   );

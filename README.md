@@ -37,21 +37,21 @@
 ```
 MOOD-ATLAS/
 │
-├── .next/               # Next.js build and runtime files (this folder is the final build)
-├── app/                 # main application code with all the indivisual files
-│   ├── global.css       # contains all the css styles used throughout the app
-│   ├── layout.js        # defines the layout of the app i.e the header main page etc
-│   ├── llmprocessing.js # contains the logic for processing user input and generating recommendations based on it using ChatGPT’s LLM
-│   ├── location_card.js # contains the logic for displaying location cards with images etc on the map
-│   ├── map.js           # contains the main google map component
-│   ├── page.js          # the main page of the app with all the formating and order of components i.e where the map, location etc are and there logic
-│   └── placesfetch      # contains the logic for fetching places from google places api to give to the llm for processing
-├── assets/              # contains all the static assets like images etc
-├── place-finder-backend/ # contains the python backend code for processing user input and generating recommendations
-├── spring-backend/      # contains the spring boot backend code for the user data
-├── utils/               # contains utility functions used throughout the app like global colors etc
-└── next.config.mjs       # contains the configuration for the next.js app like trusted domains etc
-└── tailwind.config.mjs   # contains the configuration for tailwind css
+├── .next/                  # Next.js build and runtime files (this folder is the final build)
+├── app/                    # main application code with all the indivisual files
+│   ├── global.css          # contains all the css styles used throughout the app
+│   ├── layout.js           # defines the layout of the app i.e the header main page etc
+│   ├── llmprocessing.js    # contains the logic for processing user input and generating recommendations based on it using ChatGPT’s LLM
+│   ├── location_card.js    # contains the logic for displaying location cards with images etc on the map
+│   ├── map.js              # contains the main google map component
+│   ├── page.js             # the main page of the app with all the formating and order of components i.e where the map, location etc are and there logic
+│   └── placesfetch         # contains the logic for fetching places from google places api to give to the llm for processing
+├── assets/                 # contains all the static assets like images etc
+├── place-finder-backend/    # contains the python backend code for processing user input and generating recommendations
+├── spring-backend/         # contains the spring boot backend code for the user data
+├── utils/                  # contains utility functions used throughout the app like global colors etc
+├── next.config.mjs          # contains the configuration for the next.js app like trusted domains etc
+└── tailwind.config.mjs      # contains the configuration for tailwind css
 ```
 
 ## How the Website Works

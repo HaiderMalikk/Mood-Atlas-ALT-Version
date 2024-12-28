@@ -1,5 +1,6 @@
 'use client';
 import { fetchPlaces } from "./places_fetch";
+import React, { useState, useEffect } from "react";
 
 export async function processInputs(mood, hobby, activity, userCoordinates, radius) {
   try {
@@ -7,6 +8,10 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
     const places = await fetchPlaces(userCoordinates, radius);
     console.log("Places received at llm");
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+    // send data and recive answer from flask
+
+    console.log("Flask called");
 
     // Check if places were retrieved
     if (places && places.results && places.results.length > 0) {

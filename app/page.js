@@ -12,7 +12,7 @@ const WelcomePage = () => {
   const [radius, setRadius] = useState(25);
 
   // State for user coordinates (user location)
-  const [userCoordinates] = useState({ lat: 43.642693, lng: -79.3871189 });
+  const [userCoordinates, setUserCoordinates] = useState({ lat: 43.642693, lng: -79.3871189 });
 
   // State for displaying processed data currently a place holder
   const [processedData, setProcessedData] = useState({
@@ -28,12 +28,20 @@ const WelcomePage = () => {
 
     // Set the processed data to state
     setProcessedData({
-      title: result.name,
-      address: result.address,
-      picture: result.photoReference,
+      title: result.name || "No title available",
+      address: result.address || "No address available",
+      picture: result.photoReference || "", // If no photoReference, leave empty to prevent errors as we have a default if empty
     });
+    if (result.coordinates) {
+      const { lat, lng } = result.coordinates;
+      setUserCoordinates({ lat, lng });
+      console.log("User coordinates set to:", { lat, lng });
+    } else {
+      console.log("No coordinates found in result");
+    }
   };
 
+  console.log("building page with new data");
   return (
     <div className="container">
       {/* Left Side */}

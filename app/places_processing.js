@@ -3,34 +3,43 @@ import { fetchPlaces } from "./places_fetch";
 import { fetchFlaskData } from "./flask_llm_call";
 
 export async function processInputs(mood, hobby, activity, userCoordinates, radius) {
+  console.log(`Starting place processing for mood: ${mood}, hobby: ${hobby}, activity: ${activity}, coordinates: ${userCoordinates}, radius: ${radius}`);
   try {
     // Fetch places using the helper function
     const places = await fetchPlaces(userCoordinates, radius);
     console.log("Places received at places processing");
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
     // Check if places were retrieved
-    if (places && places.results && places.results.length > 0) {
-      console.log("sending places to flask for response");
-      const flaskResult = await fetchFlaskData(places);
+    if (places && places.length > 0) {
+      console.log("Starting place processing");
+
+      // Fetch data from the Flask API using the helper function
+      console.log("Sending places to Flask call file for response");
+      const flaskResult = await fetchFlaskData(places, mood, hobby, activity);
 
       if (flaskResult !== null) {
-        console.log("data from Flask backend recived, place proccessing done, place number:", flaskResult);
+        console.log("Extracting place number from Flask response");
       } else {
         console.warn("No valid response from Flask.");
       }
 
+      const finalPlaceNumber = flaskResult["place number from llm"];
+      console.log("Final place number:", finalPlaceNumber);
+
+      console.log("Getting place details");
+
       // Extract details for place
-      const firstPlace = places.results[1];
-      const title = firstPlace.name || "No place found for your mood.";
-      const address = firstPlace.vicinity || "No place found for your hobby.";
-      const photoReference = firstPlace.photos && firstPlace.photos[0]?.photo_reference 
-                              ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${firstPlace.photos[0].photo_reference}&key=${apiKey}` 
+      const finalPlace = places[finalPlaceNumber];  // Directly access the place from the array NO NEED FOR places.results as we deal with that in places fetch
+      const title = finalPlace.name || "No place found for your mood.";
+      const address = finalPlace.vicinity || "No place found for your hobby.";
+      const photoReference = finalPlace.photos && finalPlace.photos[0]?.photo_reference 
+                              ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${finalPlace.photos[0].photo_reference}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}` 
                               : "No photo available.";
+      const coordinates = finalPlace.geometry.location;
 
-      console.log(`Final Processed Place: Name - ${title}, Address - ${address}, Photo URL - ${photoReference}`);
+      console.log(`Final Processed Place: Name - ${title}, Address - ${address}, Photo URL - ${photoReference} coordinates - ${coordinates}`);
 
-      return { name: title, address: address, photoReference: photoReference }; 
+      return { name: title, address: address, photoReference: photoReference, coordinates: coordinates};
 
     } else {
       console.warn("No places found for the given coordinates.", places);

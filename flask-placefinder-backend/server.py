@@ -1,28 +1,56 @@
-from flask import Flask, request, jsonify # jsonify for api response
-from flask_cors import CORS # for cross origin requests
+from flask import Flask, request, jsonify  # jsonify for API response
+from flask_cors import CORS  # for cross-origin requests
 import random
 
-# create app
-app = Flask(__name__) 
-CORS(app) # enable cross origin requests
+# Create Flask app
+app = Flask(__name__)
+CORS(app)  # Enable cross-origin requests
 
-# app route (app can be accessed at route)
+print("Server started, processing requests...")
 
-# once you get json just print it and give a rand number
-@app.route('/api/home', methods=['GET'])
-def return_home():
-    return jsonify({'place number from llm': random.randint(1,10)})
+@app.route('/api/home', methods=['POST', 'GET'])
+def process_places():
+    # Initialize response data
+    response_data = {}
 
+    if request.method == 'POST':
+        # Check if the request contains JSON data
+        if request.is_json:
+            # Parse JSON from the request body
+            data = request.get_json()
 
+            # Extract individual parameters
+            places = data.get('places', [])
+            mood = data.get('mood', 'No mood provided')
+            hobby = data.get('hobby', 'No hobby provided')
+            activity = data.get('activity', 'No activity provided')
 
-# run app
+            print("POST request received with the following data:")
+            print(f"Mood: {mood}")
+            print(f"Hobby: {hobby}")
+            print(f"Activity: {activity}")
+            
+
+            # Construct response data
+            response_data = {
+                'mood': mood,
+                'hobby': hobby,
+                'activity': activity,
+                'place number from llm': random.randint(1, 10),  # Add a random integer
+            }
+        else:
+            print("Invalid JSON format in request.")
+            return jsonify({'error': 'Invalid JSON format'}), 400
+
+    elif request.method == 'GET':
+        print("GET request received. Returning default response.")
+        response_data = {
+            'message': 'This endpoint supports POST requests for processing data.',
+        }
+
+    # Return the response data as JSON
+    return jsonify(response_data)
+
+# Run the app
 if __name__ == '__main__':
-    app.run(debug=True, port=8080) # run the app in debug mode, once deployed, set to False, 8080 as 5000 is bad
-    
-# to run first 
-"""  
-cd flask-placefinder-backend # go to the flask-placefinder-backend directory
-source venv/bin/activate # activate virtual environment 
-python server.py # run the server
-# install any missing packages before running
-"""
+    app.run(debug=True, port=8080)  # Run the app on port 8080

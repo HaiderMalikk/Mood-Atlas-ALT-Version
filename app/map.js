@@ -50,7 +50,7 @@ export function Map({userCoordinates}) {
     };
 
     getMap(); // Get the map after calling the function
-  }, []); // Only run this once
+  }, [userCoordinates]); // Only run this when user Coordinates changes
 
   return (
     // this file returns the rendered map wrapped in a div

@@ -48,6 +48,7 @@ MOOD-ATLAS/
 │   └── placesfetch         # contains the logic for fetching places from google places api to give to the llm for processing
 ├── assets/                 # contains all the static assets like images etc
 ├── place-finder-backend/    # contains the python backend code for processing user input and generating recommendations
+│   ├── server.py           # the main flask server file wher ethe llm is prompted 
 ├── spring-backend/         # contains the spring boot backend code for the user data
 ├── utils/                  # contains utility functions used throughout the app like global colors etc
 ├── next.config.mjs          # contains the configuration for the next.js app like trusted domains etc
@@ -94,6 +95,7 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 
 **TODO**: 
 post json to flask
+and propigate the mood etc to llm featch
 
 - featch user location (in page once initial, update everytime by bringing the variable from llm procces file) get new location from json 
  

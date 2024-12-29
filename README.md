@@ -47,12 +47,12 @@ MOOD-ATLAS/
 │   ├── location_card.js          # contains the logic for displaying location cards with images etc on the map
 │   ├── map.js                    # contains the main google map component 
 │   ├── page.js                   # the main page of the app with all the formating and order of components i.e where the map, location etc are and there logic along with the user inputs 
-│   └── places_fetch              # contains the logic for fetching places from google places api to give to the processor for it to forward it to flask
-│   └── places_processing.js      # this is where all the inputs are recived and where we get the places send it to flask get its response and resturn the result to the page
+│   ├── places_fetch              # contains the logic for fetching places from google places api to give to the processor for it to forward it to flask
+│   ├── places_processing.js      # this is where all the inputs are recived and where we get the places send it to flask get its response and resturn the result to the page
 │   └── user_location.js          # This is where we get the user's initilal location from ipapi api.
 ├── assets/                       # contains all the static assets like images etc
 ├── flask-placefinder-backend/    # contains the python backend code for processing user input and generating recommendations
-│   ├── server.py                 # the main flask server file where we get the data from the app files and then the llm is prompted to return a result back to the user
+│   └── server.py                 # the main flask server file where we get the data from the app files and then the llm is prompted to return a result back to the user
 ├── spring-backend/               # contains the spring boot backend code for the user data
 ├── utils/                        # contains utility functions used throughout the app like global colors etc
 ├── next.config.mjs               # contains the configuration for the next.js app like trusted domains etc

@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import './globals.css';
+import Image from 'next/image';
+import logo from '../assets/logo-nobg.png';
 
 const Layout = ({ children }) => {
   const [isAboutOpen, setIsAboutOpen] = useState(false);
@@ -48,14 +50,25 @@ const Layout = ({ children }) => {
         {isAboutOpen && (
           <div className='about-overlay'>
             <div className="about-card">
-              <h2>About Us</h2>
-              <p>This is the about section. You can add details about your project here.</p>
-              <button
-                onClick={toggleAboutPopup}
-                className="close-button"
-              >
-                Close
-              </button>
+                <Image 
+                  className="map-image" 
+                  src={logo} 
+                  alt={'logo'} 
+                  style={{ width: '120px', height: '120px', marginTop: '-20px', marginBottom: '-20px'}}
+                  />
+                <h2>'Chart your feelings, discover your destination'</h2>
+                <h3>What is Mood Atlas?</h3>
+                <p>is an innovative app that recommends destinations based on user moods, places, or feelings. The project integrates multiple technologies for seamless functionality. The combination of AI and real-time data creates a personalized experience, guiding users to destinations that match their feelings. </p>
+                <h3>How does it work?</h3>
+                <p>To Learn How it Works, Click on the 'Github' icon on the top right. This will give you a in-depth look at the code and how it was built and how it works.</p>
+                <h3>About the Developer</h3>
+                <p>Developed by Haider Malik, a software engineer with a passion for creating innovative AI applications. </p>
+                <button
+                  onClick={toggleAboutPopup}
+                  className="close-button"
+                  >
+                  Close
+                </button>
             </div>
           </div>
         )}

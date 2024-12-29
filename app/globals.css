@@ -324,6 +324,7 @@ html, body {
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
+  z-index: 1;
 }
 
 .close-button {
@@ -382,7 +383,7 @@ html, body {
 .close-button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #0073e6;
+  background-color: #272c30;
   color: white;
   border: none;
   border-radius: 5px;
@@ -390,7 +391,8 @@ html, body {
 }
 
 .close-button:hover {
-  background-color: #005bb5;
+  background-color: var(--orange);
+  transition: background-color 0.3s ease;
 }
 
 

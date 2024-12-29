@@ -94,9 +94,7 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 <img src="./assets/latest.png" alt="Home" width="600" height="auto" />
 
 **TODO**: 
-- go again feture rsets
-- add github link and about card
-- change prog dir
+- change prog dir, fill about card
 
 - featch user location (in page once initial, update everytime by bringing the variable from llm procces file) get new location from json 
  

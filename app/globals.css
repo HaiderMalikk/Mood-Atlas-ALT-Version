@@ -34,14 +34,12 @@
 .about-header {
   text-align: left; 
   margin: 10px;     
+  transition: background-color 0.3s ease;
 }
 .github-header {
   text-align: right; 
-  margin: 10px 0;     
-}
-.learnmore-header {
-  text-align: right; 
-  margin: 10px 0;     
+  margin: 10px 0;   
+  transition: background-color 0.3s ease;  
 }
 
 .button {
@@ -301,6 +299,42 @@ html, body {
   100% {
     transform: rotate(360deg); /* Complete one full rotation */
   }
+}
+
+/* About Card Overlay */
+.about-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Dimmed background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.about-card {
+  font: 1rem / 1.5rem 'Inter', sans-serif;
+  background: white;
+  padding: 30px;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.close-button {
+  font: 1rem / 1.5rem 'Inter', sans-serif;
+  padding: 10px 20px;
+  background-color: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
 }
 
 @media (max-width: 768px) {

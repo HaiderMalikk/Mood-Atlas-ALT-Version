@@ -10,9 +10,10 @@ const WelcomePage = () => {
   const [activity, setActivity] = useState("");
   const [hobby, setHobby] = useState("");
   const [radius, setRadius] = useState(25);
+  const [userLocation, setUserLocation] = useState({ lat: 43.642693, lng: -79.3871189 });
 
   // State for user coordinates (user location)
-  const [userCoordinates, setUserCoordinates] = useState({ lat: 43.642693, lng: -79.3871189 });
+  const [userCoordinates, setUserCoordinates] = useState(userLocation);
 
   // State for displaying processed data, currently a placeholder
   const [processedData, setProcessedData] = useState({
@@ -29,23 +30,24 @@ const WelcomePage = () => {
   // State to check if the process is done
   const [done, setDone] = useState(false);
 
-  const handleButtonClick = async () => {
+  const handleSubmit = async () => {
     // Check if any required fields are missing or if the radius is 0
     if (!mood || !activity || !hobby) {
-      setProcessedData({ title: "Please fill in all the fields.", address: "", picture: "" });
+      alert("Please fill in all the fields.");
       return;
     }
-
+  
     if (radius == 0) {
-      setProcessedData({ title: "Radius cannot be 0.", address: "", picture: "" });
+      alert("Radius cannot be 0.");
       return;
     }
-
+  
     setLoading(true); // Set loading to true before making API call
+  
     // Process inputs
     const result = await processInputs(mood, hobby, activity, userCoordinates, radius);
     console.log("Processed Place data received at main page:", result);
-
+  
     // Set the processed data to state
     setProcessedData({
       title: result.name || "No title available",
@@ -54,6 +56,7 @@ const WelcomePage = () => {
       reviews: result.reviews || "No reviews available",
       matchscore: result.matchpercentage || 0
     });
+  
     if (result.coordinates) {
       const { lat, lng } = result.coordinates;
       setUserCoordinates({ lat, lng });
@@ -61,9 +64,11 @@ const WelcomePage = () => {
     } else {
       console.log("No coordinates found in result");
     }
+  
     setLoading(false); // Set loading to false after processing data is complete
     setDone(true); // Set done to true when the process is complete
   };
+  
 
   const handleReset = () => {
     // Reset all states
@@ -71,7 +76,7 @@ const WelcomePage = () => {
     setActivity("");
     setHobby("");
     setRadius(25);
-    setUserCoordinates({ lat: 43.642693, lng: -79.3871189 });
+    setUserCoordinates(userLocation);
     setProcessedData({
       title: "Start by Filling the inputs and then click submit",
       address: "",
@@ -157,7 +162,7 @@ const WelcomePage = () => {
             </div>
           ) : (
             <>
-              <button className="submit-button" onClick={handleButtonClick}>
+              <button className="submit-button" onClick={handleSubmit}>
                 Submit
               </button>
               {done && (

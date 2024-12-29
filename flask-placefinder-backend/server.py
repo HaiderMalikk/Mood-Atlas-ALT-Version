@@ -34,6 +34,7 @@ def process_places():
             # Process the places using gpt
             # ...
             matchscore = 100
+            # ! ALWAYS IGNORE FIRST OBJECT IN RESULS ITS THE CITY ITSELF
             
             
             

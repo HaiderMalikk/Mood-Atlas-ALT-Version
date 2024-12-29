@@ -5,7 +5,7 @@ import logo from '../assets/logo.png';
 export function LocationCard({ title, description, picture, reviews, matchscore }) {
   let formattedreviews = '';
   if (reviews){
-    formattedreviews = 'Reviews: ' + reviews;
+    formattedreviews = 'Reviews: ' + reviews + " ⭐️";
   }
   let formattedscore = '';
   if (matchscore){

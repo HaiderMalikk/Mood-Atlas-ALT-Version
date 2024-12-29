@@ -98,7 +98,6 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 <img src="./assets/latest.png" alt="Home" width="600" height="auto" />
 
 **TODO**: 
-- add card
 
-- featch user location (in page once call on start and reset)
+- jyputer testing 
 - add backend python 

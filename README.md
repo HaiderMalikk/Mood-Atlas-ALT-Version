@@ -7,7 +7,7 @@
 - **Frontend**:  
   - Developed with **React** and **Next.js**.  
   - Uses **Google Maps API** to display locations on a map.  
-  - Fetches images and reviews via the **Google Places API** and displays them in user-friendly cards with hyperlinks for quick access to Google Maps.
+  - Fetches images and reviews via the **Google Places API** and displays them in user-friendly cards with info on the place.
 
 - **Python AI Backend**:  
   - Processes user prompts and location data.  
@@ -37,22 +37,23 @@
 ```
 MOOD-ATLAS/
 │
-├── .next/                  # Next.js build and runtime files (this folder is the final build)
-├── app/                    # main application code with all the indivisual files
-│   ├── global.css          # contains all the css styles used throughout the app
-│   ├── layout.js           # defines the layout of the app i.e the header main page etc
-│   ├── llmprocessing.js    # contains the logic for processing user input and generating recommendations based on it using ChatGPT’s LLM
-│   ├── location_card.js    # contains the logic for displaying location cards with images etc on the map
-│   ├── map.js              # contains the main google map component
-│   ├── page.js             # the main page of the app with all the formating and order of components i.e where the map, location etc are and there logic
-│   └── placesfetch         # contains the logic for fetching places from google places api to give to the llm for processing
-├── assets/                 # contains all the static assets like images etc
-├── place-finder-backend/    # contains the python backend code for processing user input and generating recommendations
-│   ├── server.py           # the main flask server file wher ethe llm is prompted 
-├── spring-backend/         # contains the spring boot backend code for the user data
-├── utils/                  # contains utility functions used throughout the app like global colors etc
-├── next.config.mjs          # contains the configuration for the next.js app like trusted domains etc
-└── tailwind.config.mjs      # contains the configuration for tailwind css
+├── .next/                        # Next.js build and runtime files (this folder is the final build)
+├── app/                          # main application code with all the indivisual files
+│   ├── global.css                # contains all the css styles used throughout the app
+│   ├── flask_llm_call,js         # this is where the flask backend is called and also where the data sent back is recived from flask, this is called and returns its result tot processor 
+│   ├── layout.js                 # defines the layout of the app i.e the header main page etc
+│   ├── location_card.js          # contains the logic for displaying location cards with images etc on the map
+│   ├── map.js                    # contains the main google map component 
+│   ├── page.js                   # the main page of the app with all the formating and order of components i.e where the map, location etc are and there logic along with the user inputs 
+│   └── places_fetch              # contains the logic for fetching places from google places api to give to the processor for it to forward it to flask
+│   └── places_processing.js      # this is where all the inputs are recived and where we get the places send it to flask get its response and resturn the result to the page
+├── assets/                       # contains all the static assets like images etc
+├── flask-placefinder-backend/    # contains the python backend code for processing user input and generating recommendations
+│   ├── server.py                 # the main flask server file where we get the data from the app files and then the llm is prompted to return a result back to the user
+├── spring-backend/               # contains the spring boot backend code for the user data
+├── utils/                        # contains utility functions used throughout the app like global colors etc
+├── next.config.mjs               # contains the configuration for the next.js app like trusted domains etc
+└── tailwind.config.mjs           # contains the configuration for tailwind css
 ```
 
 ## How the Website Works
@@ -80,7 +81,7 @@ MOOD-ATLAS/
         "photo_reference" : "AWYs27znPtKuOjv43tZBTCFngJGTvlpvSD74iz3mXFo7trkgn8-jNhGtxP0zT8OdBpgRDLX4vih2Jvs-8PcJh_KVRfKablKQgHorz3rTNh0cqulc5R5OHjdI7JM2EwzxoCm_LSn2uKNu3Fw6MuYoFgSb-GrVlDZ2uudhal7pbx1KO3m7chFA",
       }
     ],
-    {"etc etc "}
+    {"etc etc this is not the exact format of the json file but it is something like this"}
 }
 ```
 
@@ -94,7 +95,7 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 <img src="./assets/latest.png" alt="Home" width="600" height="auto" />
 
 **TODO**: 
-- change prog dir, fill about card
+- add card
 
-- featch user location (in page once initial, update everytime by bringing the variable from llm procces file) get new location from json 
- 
+- featch user location (in page once call on start and reset)
+- add backend python 

@@ -22,7 +22,6 @@ const Layout = ({ children }) => {
             {/* github and Learn More on the right */}
             <div style={{ display: 'flex', gap: '20px' }}>
               <h1 className="github-header button" style={{ margin: 0 }}>Github</h1>
-              <h1 className="learnmore-header button" style={{ margin: 0 }}>Learn More</h1>
             </div>
           </nav>
         </header>

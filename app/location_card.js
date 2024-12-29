@@ -2,7 +2,15 @@
 import Image from 'next/image';
 import logo from '../assets/logo.png';
 
-export function LocationCard({ title, description, picture }) {
+export function LocationCard({ title, description, picture, reviews, matchscore }) {
+  let formattedreviews = '';
+  if (reviews){
+    formattedreviews = 'Reviews: ' + reviews;
+  }
+  let formattedscore = '';
+  if (matchscore){
+    formattedscore = 'Matchscore: ' + matchscore + '%';
+  }
   return (
     <div>
       <div className="map-overlay-box">
@@ -10,6 +18,8 @@ export function LocationCard({ title, description, picture }) {
           <div className="map-text">
             <h2 className="map-title">{title}</h2>
             <p className="map-description">{description}</p>
+            <p className="map-description">{formattedreviews}</p>
+            <p className="map-description">{formattedscore}</p>
           </div>
           {/*  Image component gets a valid src */}
           <Image 

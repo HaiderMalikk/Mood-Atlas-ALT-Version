@@ -14,23 +14,45 @@ const WelcomePage = () => {
   // State for user coordinates (user location)
   const [userCoordinates, setUserCoordinates] = useState({ lat: 43.642693, lng: -79.3871189 });
 
-  // State for displaying processed data currently a place holder
+  // State for displaying processed data, currently a placeholder
   const [processedData, setProcessedData] = useState({
     title: "Start by Filling the inputs and then click submit",
     address: "",
     picture: "",
+    reviews: "",
+    matchscore: null,
   });
 
+  // State to manage loading icon, initially set to false as we only start on click
+  const [loading, setLoading] = useState(false);
+
+  // State to check if the process is done
+  const [done, setDone] = useState(false);
+
   const handleButtonClick = async () => {
-    // Process inputs using llmprocessing.js
+    // Check if any required fields are missing or if the radius is 0
+    if (!mood || !activity || !hobby) {
+      setProcessedData({ title: "Please fill in all the fields.", address: "", picture: "" });
+      return;
+    }
+
+    if (radius == 0) {
+      setProcessedData({ title: "Radius cannot be 0.", address: "", picture: "" });
+      return;
+    }
+
+    setLoading(true); // Set loading to true before making API call
+    // Process inputs
     const result = await processInputs(mood, hobby, activity, userCoordinates, radius);
-    console.log("Processed Place data recived at main page:", result);
+    console.log("Processed Place data received at main page:", result);
 
     // Set the processed data to state
     setProcessedData({
       title: result.name || "No title available",
       address: result.address || "No address available",
       picture: result.photoReference || "", // If no photoReference, leave empty to prevent errors as we have a default if empty
+      reviews: result.reviews || "No reviews available",
+      matchscore: result.matchpercentage || 0
     });
     if (result.coordinates) {
       const { lat, lng } = result.coordinates;
@@ -39,9 +61,29 @@ const WelcomePage = () => {
     } else {
       console.log("No coordinates found in result");
     }
+    setLoading(false); // Set loading to false after processing data is complete
+    setDone(true); // Set done to true when the process is complete
   };
 
-  console.log("building page with new data");
+  const handleReset = () => {
+    // Reset all states
+    setMood("");
+    setActivity("");
+    setHobby("");
+    setRadius(25);
+    setUserCoordinates({ lat: 43.642693, lng: -79.3871189 });
+    setProcessedData({
+      title: "Start by Filling the inputs and then click submit",
+      address: "",
+      picture: "",
+      reviews: "",
+      matchscore: null,
+    });
+    setDone(false); // Reset done state
+  };
+
+  console.log("building page");
+
   return (
     <div className="container">
       {/* Left Side */}
@@ -100,7 +142,7 @@ const WelcomePage = () => {
               id="radius-slider"
               className="slider"
               min="0"
-              max="50"
+              max="100"
               value={radius}
               onChange={(e) => setRadius(e.target.value)}
             />
@@ -108,20 +150,34 @@ const WelcomePage = () => {
           </div>
         </div>
         <div className="button-container">
-          <button className="submit-button" onClick={handleButtonClick}>
-            Submit
-          </button>
+          {loading ? (
+            <div className="loading-container">
+              <div className="loading-spinner"></div> {/* Spinner */}
+              <span style={{ marginLeft: "10px" }}>Loading...</span> {/* Text next to the spinner */}
+            </div>
+          ) : (
+            <>
+              <button className="submit-button" onClick={handleButtonClick}>
+                Submit
+              </button>
+              {done && (
+                <button className="submit-button" style={{ marginLeft: "30px" }} onClick={handleReset}>
+                  Go Again
+                </button>
+              )}
+            </>
+          )}
         </div>
       </div>
       {/* Right Side */}
       <div className="right">
-        <Map 
-          userCoordinates={userCoordinates}
-        />
+        <Map userCoordinates={userCoordinates} />
         <LocationCard
           title={processedData.title}
           description={processedData.address}
           picture={processedData.picture || ""}
+          reviews={processedData.reviews}
+          matchscore={processedData.matchscore}
         />
       </div>
     </div>

@@ -144,6 +144,7 @@
 }
 
 .radius-value {
+  font: 1rem / 1.5rem 'Inter', sans-serif;
   font-size: 1rem;
   font-weight: bold;
   color: var(--backgroundcolor);
@@ -267,11 +268,40 @@ html, body {
 }
 
 .map-image {
-  width: 30%;
-  height: auto;
-  border-radius: 5px; /* Optional: rounded corners for the image */
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 5px;
 }
 
+
+/* Loading spinner container */
+/* Container to hold both spinner and text */
+.loading-container {
+  display: flex;
+  align-items: center; /* Vertically center the spinner and text */
+  justify-content: center; /* Optional: centers the whole container */
+  gap: 10px; /* Space between spinner and text */
+}
+
+.loading-spinner {
+  border: 8px solid transparent; /* Transparent border */
+  border-top: 8px solid var(--orange); /* Color of the spinner */
+  border-radius: 50%; /* Make it a circle */
+  width: 40px; /* Set width to 40px for a reasonable spinner size */
+  height: 40px; /* Same height for a circular spinner */
+  animation: spin 1s linear infinite; /* Smooth spinning animation */
+}
+
+/* Animation keyframe for spinning */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Start rotation */
+  }
+  100% {
+    transform: rotate(360deg); /* Complete one full rotation */
+  }
+}
 
 @media (max-width: 768px) {
   .header-links {

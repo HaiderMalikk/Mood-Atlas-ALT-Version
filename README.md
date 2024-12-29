@@ -94,8 +94,9 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 <img src="./assets/latest.png" alt="Home" width="600" height="auto" />
 
 **TODO**: 
-post json to flask
-and propigate the mood etc to llm featch
+- go again feture rsets
+- add github link and about card
+- change prog dir
 
 - featch user location (in page once initial, update everytime by bringing the variable from llm procces file) get new location from json 
  

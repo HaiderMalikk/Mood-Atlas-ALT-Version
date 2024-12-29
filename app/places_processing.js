@@ -25,28 +25,29 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
 
       const finalPlaceNumber = flaskResult["place number from llm"];
       console.log("Final place number:", finalPlaceNumber);
+      const matchpercentage = flaskResult["matchscore"];
 
       console.log("Getting place details");
 
       // Extract details for place
       const finalPlace = places[finalPlaceNumber];  // Directly access the place from the array NO NEED FOR places.results as we deal with that in places fetch
-      const title = finalPlace.name || "No place found for your mood.";
-      const address = finalPlace.vicinity || "No place found for your hobby.";
+      const title = finalPlace.name
+      const address = finalPlace.vicinity
       const photoReference = finalPlace.photos && finalPlace.photos[0]?.photo_reference 
                               ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${finalPlace.photos[0].photo_reference}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}` 
-                              : "No photo available.";
+                              : "No photo available will be set to default in page.js.";
       const coordinates = finalPlace.geometry.location;
+      const reviews = finalPlace.rating;
 
-      console.log(`Final Processed Place: Name - ${title}, Address - ${address}, Photo URL - ${photoReference} coordinates - ${coordinates}`);
+      console.log(`Final Processed Place: Name - ${title}, Address - ${address}, Photo URL - ${photoReference} coordinates - ${coordinates} reviews - ${reviews} matchpercentage - ${matchpercentage}%`);
 
-      return { name: title, address: address, photoReference: photoReference, coordinates: coordinates};
+      return { name: title, address: address, photoReference: photoReference, coordinates: coordinates, reviews: reviews, matchpercentage: matchpercentage};
 
     } else {
       console.warn("No places found for the given coordinates.", places);
       return {
         name: `No places found for your mood: "${mood}".`,
         address: `No places found for your hobby: "${hobby}".`,
-        photoReference: `No places found for your activity: "${activity}".`,
       };
     }
   } catch (error) {
@@ -54,7 +55,6 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
     return {
       name: `Error retrieving places for your mood: "${mood}".`,
       address: `Error retrieving places for your hobby: "${hobby}".`,
-      photoReference: `Error retrieving places for your activity: "${activity}".`,
     };
   }
 }

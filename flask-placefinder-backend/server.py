@@ -25,10 +25,17 @@ def process_places():
             hobby = data.get('hobby', 'No hobby provided')
             activity = data.get('activity', 'No activity provided')
 
-            print("POST request received with the following data:")
+            print("POST request received with the Places + following data:")
             print(f"Mood: {mood}")
             print(f"Hobby: {hobby}")
             print(f"Activity: {activity}")
+            
+            
+            # Process the places using gpt
+            # ...
+            matchscore = 100
+            
+            
             
 
             # Construct response data
@@ -36,7 +43,8 @@ def process_places():
                 'mood': mood,
                 'hobby': hobby,
                 'activity': activity,
-                'place number from llm': random.randint(1, 10),  # Add a random integer
+                'place number from llm': random.randint(0, len(places)),  # Add a random integer
+                'matchscore': matchscore
             }
         else:
             print("Invalid JSON format in request.")

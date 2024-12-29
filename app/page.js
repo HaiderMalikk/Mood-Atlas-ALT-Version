@@ -167,7 +167,7 @@ const WelcomePage = () => {
               </button>
               {done && (
                 <button className="submit-button" style={{ marginLeft: "30px" }} onClick={handleReset}>
-                  Go Again
+                  Reset
                 </button>
               )}
             </>

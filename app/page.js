@@ -1,8 +1,9 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Map } from "./map";
 import { LocationCard } from "./location_card";
 import { processInputs } from "./places_processing";
+import { fetchUserCoordinates } from "./user_location"
 import "./globals.css";
 
 const WelcomePage = () => {
@@ -10,10 +11,26 @@ const WelcomePage = () => {
   const [activity, setActivity] = useState("");
   const [hobby, setHobby] = useState("");
   const [radius, setRadius] = useState(25);
-  const [userLocation, setUserLocation] = useState({ lat: 43.642693, lng: -79.3871189 });
+  const [userCoordinates, setUserCoordinates] = useState(null);
+
+  // Fetch user coordinates only once at the start hence why the mount is empty '[]'
+  useEffect(() => {
+    const getcoordinates = async () => {
+    const coordinates = await fetchUserCoordinates();
+    if (coordinates) {
+      setUserCoordinates(coordinates);
+    }
+    else {
+      alert("You Location could not be found, setting default to Toronto");
+      setUserCoordinates({ lat: 43.6532, lng: -79.3832 });
+    }
+    console.log("User coordinates set to:", coordinates);
+    };
+    getcoordinates();
+
+  }, []);
 
   // State for user coordinates (user location)
-  const [userCoordinates, setUserCoordinates] = useState(userLocation);
 
   // State for displaying processed data, currently a placeholder
   const [processedData, setProcessedData] = useState({

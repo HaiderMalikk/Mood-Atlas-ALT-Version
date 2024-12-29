@@ -24,7 +24,7 @@ export function Map({userCoordinates}) {
 
       // Dynamically load the Google Maps library
       const { Map } = await loader.importLibrary('maps');
-      const position = userCoordinates; // Position of the map (center)
+      const position = userCoordinates; // Position of the map (center) in the form of {lat, lng}
 
       // Google map options
       const googleMapsOptions = {

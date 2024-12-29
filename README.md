@@ -11,6 +11,7 @@
 
 - **Python AI Backend**:  
   - Processes user prompts and location data.  
+  - Uses **Flask** for API endpoints. So that the nextjs and python backend can communicate with each other.
   - Leverages **ChatGPT’s LLM** to generate personalized place recommendations.  
   - Incorporates **text embeddings** for semantic understanding of user input.  
   - Returns coordinates (from Google Places API) to pinpoint locations on the map.
@@ -25,6 +26,7 @@
 - **Next.js**: A React-based framework that enables server-side rendering, static site generation, and other advanced web development features.
 - **Google Maps API**: Provides interactive maps and location data, allowing the app to display user destinations on a map.
 - **Google Places API**: Fetches information about places, such as names, addresses, reviews, and images, to enhance user experience by providing more details about recommended locations.
+- **Other API's**: Uses ipapi to get the users initial location, uses heroku to allow user to get places near them eithout using a external api file or dealing with CORS issues.
 - **ChatGPT’s LLM (Large Language Model)**: A powerful AI language model by OpenAI used to process and generate human-like responses to user input, providing personalized recommendations.
 - **Text Embeddings**: Used to convert user input into numerical representations that capture semantic meaning, helping the AI backend understand and match users' moods with destinations.
 - **SQL**: A standardized programming language used to manage and manipulate relational databases, employed here to store user data and interactions in the Spring Boot backend.
@@ -47,6 +49,7 @@ MOOD-ATLAS/
 │   ├── page.js                   # the main page of the app with all the formating and order of components i.e where the map, location etc are and there logic along with the user inputs 
 │   └── places_fetch              # contains the logic for fetching places from google places api to give to the processor for it to forward it to flask
 │   └── places_processing.js      # this is where all the inputs are recived and where we get the places send it to flask get its response and resturn the result to the page
+│   └── user_location.js          # This is where we get the user's initilal location from ipapi api.
 ├── assets/                       # contains all the static assets like images etc
 ├── flask-placefinder-backend/    # contains the python backend code for processing user input and generating recommendations
 │   ├── server.py                 # the main flask server file where we get the data from the app files and then the llm is prompted to return a result back to the user

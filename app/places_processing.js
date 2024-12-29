@@ -48,6 +48,7 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
       return {
         name: `No places found for your mood: "${mood}".`,
         address: `No places found for your hobby: "${hobby}".`,
+        reviews: `No places found for your activity: "${activity}".`
       };
     }
   } catch (error) {
@@ -55,6 +56,7 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
     return {
       name: `Error retrieving places for your mood: "${mood}".`,
       address: `Error retrieving places for your hobby: "${hobby}".`,
+      reviews: `Error retrieving places for your activity: "${activity}".`
     };
   }
 }

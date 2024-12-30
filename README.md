@@ -52,6 +52,7 @@ MOOD-ATLAS/
 │   └── user_location.js          # This is where we get the user's initilal location from ipapi api.
 ├── assets/                       # contains all the static assets like images etc
 ├── flask-placefinder-backend/    # contains the python backend code for processing user input and generating recommendations
+│   ├── jupyter_tests/            # contains the jupyter notebooks for testing the python backend along with some test data
 │   └── server.py                 # the main flask server file where we get the data from the app files and then the llm is prompted to return a result back to the user
 ├── spring-backend/               # contains the spring boot backend code for the user data
 ├── utils/                        # contains utility functions used throughout the app like global colors etc
@@ -99,5 +100,4 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 
 **TODO**: 
 
-- jyputer testing 
-- add backend python 
+- Fix cors issue for google places api

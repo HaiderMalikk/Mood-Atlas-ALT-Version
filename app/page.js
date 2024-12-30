@@ -93,7 +93,7 @@ const WelcomePage = () => {
     setActivity("");
     setHobby("");
     setRadius(25);
-    setUserCoordinates(userLocation);
+    setUserCoordinates(userCoordinates);
     setProcessedData({
       title: "Start by Filling the inputs and then click submit",
       address: "",

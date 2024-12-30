@@ -43,7 +43,7 @@ def process_places():
             print("Processing places...")
             # Create a new ChatOpenAI model
             OPENAPI_API_KEY = os.environ.get('OPENAI_API_KEY')
-            llm = ChatOpenAI(model="gpt-4o-mini", api_key=OPENAPI_API_KEY, temperature=0.2, max_tokens=2048)
+            llm = ChatOpenAI(model="gpt-4o-mini", api_key=OPENAPI_API_KEY, temperature=0.8, max_tokens=2048)
             # create prompt
             prompt_template = """
             You are a place selector your job is to find a place for the attributes of the user which are as follows:

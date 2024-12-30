@@ -39,7 +39,6 @@ def process_places():
             
             # Process the places using gpt
             # ...
-            # ! ALWAYS IGNORE FIRST OBJECT IN RESULS ITS THE CITY ITSELF
             print("Processing places...")
             # Create a new ChatOpenAI model
             OPENAPI_API_KEY = os.environ.get('OPENAI_API_KEY')
@@ -48,6 +47,8 @@ def process_places():
             prompt_template = """
             You are a place selector your job is to find a place for the attributes of the user which are as follows:
             Users Mood: {mood}, Users Hobbies: {hobby}, Users Activities: {activity}
+            IF ANY OF THE ATTRIBUTES ARE N/A THAT MEANS THE USER DID NOT PROVIDE IT, ASUME IT'S THE SAME IF ITS BLANK
+            IF YOU ARE NOT GIVEN ONE OR MORE OF THE ABOVE ATTRIBUTES RETURN YOU BEST GUESS EVEN IF YOU ARE GIVEN NO ATTRIBUTES
 
             You are also given a key value pair as follows: Key = place number and Value = place name. 
             Your job is too find the best place for the user based on the given attributes.
@@ -56,8 +57,10 @@ def process_places():
             then you must return a match score from 0-100 which is the score of how well the place matches the user.
             this score must be seperated by a commas 
             the final answer will be in the following format: key, match_score
+            
             YOU MUST RETURN A VALID INTEGER AND NOTHING ELSE, EVEN IF THE USER HAS NO MATCHING PLACE RETURN YOU BEST GUESS. ALSO RETURN A MATCH PERCENTAGE EVEN IF ITS 0
             JUST FOR YOU REFERENCE THE MAX NUMBER YOU CAN GOTO IS THE MAX NUMBER OF OBJECTS IN THE LIST OF PLACES WHICH IS: {places_len}
+            
             Here is the list of places:
             {places}
             """
@@ -72,7 +75,11 @@ def process_places():
             final_place_number = answer[0]
             match_score = answer[1]
             print(f"Final Place Number: {final_place_number}, Match Score: {match_score}")
-                        
+            # error check
+            if final_place_number == 'None' or int(final_place_number) > len(places):
+                final_place_number = 0 # set to 0 if no match 0 is the city itself
+            if match_score == 'None':
+                match_score = "Could Not Calculate"
 
             # Construct response data
             response_data = {

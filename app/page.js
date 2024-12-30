@@ -50,7 +50,7 @@ const WelcomePage = () => {
   const handleSubmit = async () => {
     // Check if any required fields are missing or if the radius is 0
     if (!mood || !activity || !hobby) {
-      alert("Please fill in all the fields.");
+      alert("Please fill in all the fields. If you want to skip a field, just type in N/A, but its recommended to fill them out.");
       return;
     }
   

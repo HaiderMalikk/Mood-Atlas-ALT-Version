@@ -9,7 +9,7 @@ export function LocationCard({ title, description, picture, reviews, matchscore 
   }
   let formattedscore = '';
   if (matchscore){
-    formattedscore = 'Matchscore: ' + matchscore + '%';
+    formattedscore = 'Match Score: ' + matchscore + '%';
   }
   return (
     <div>

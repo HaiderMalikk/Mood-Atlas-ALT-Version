@@ -2,7 +2,7 @@
 
 ## Project Summary: **Mood Atlas**
 
-**Mood Atlas** is an innovative app that recommends destinations based on user moods, places, or feelings. The project integrates multiple technologies for seamless functionality. The combination of AI and real-time data creates a personalized experience, guiding users to destinations that match their feelings. This app is currently in development and is expected to be released in the near future. See the bottom of this file for the latest updates.
+**Mood Atlas** is an innovative app that recommends destinations based on user moods, places, or feelings. The project integrates multiple technologies for seamless functionality. The combination of AI and real-time data creates a personalized experience, guiding users to destinations that match their feelings. This app is currently in development and is expected to be released in the near future. **See the bottom of this file for the latest updates**.
 
 - **Frontend**:  
   - Developed with **React** and **Next.js**.  
@@ -12,9 +12,7 @@
 - **Python AI Backend**:  
   - Processes user prompts and location data.  
   - Uses **Flask** for API endpoints. So that the nextjs and python backend can communicate with each other.
-  - Leverages **ChatGPT’s LLM** to generate personalized place recommendations.  
-  - Incorporates **text embeddings** for semantic understanding of user input.  
-  - Returns coordinates (from Google Places API) to pinpoint locations on the map.
+  - Leverages **ChatGPT’s LLM** to generate personalized place recommendations.    
 
 - **Spring Boot Backend**:  
   - Manages user data (e.g., name, email) via **SQL** and **Postman**.  
@@ -27,8 +25,8 @@
 - **Google Maps API**: Provides interactive maps and location data, allowing the app to display user destinations on a map.
 - **Google Places API**: Fetches information about places, such as names, addresses, reviews, and images, to enhance user experience by providing more details about recommended locations.
 - **Other API's**: Uses ipapi to get the users initial location, uses heroku to allow user to get places near them eithout using a external api file or dealing with CORS issues.
+- **Flask**: A python web framework that allows for the creation of backend APIs, used for processing user prompts and location data.
 - **ChatGPT’s LLM (Large Language Model)**: A powerful AI language model by OpenAI used to process and generate human-like responses to user input, providing personalized recommendations.
-- **Text Embeddings**: Used to convert user input into numerical representations that capture semantic meaning, helping the AI backend understand and match users' moods with destinations.
 - **SQL**: A standardized programming language used to manage and manipulate relational databases, employed here to store user data and interactions in the Spring Boot backend.
 - **Postman**: A tool for testing and interacting with APIs, ensuring the functionality of the Spring Boot backend through the creation and execution of requests.
 - **Firebase**: A platform for building mobile and web applications, used here to store user preferences and favorites in a real-time NoSQL database.
@@ -42,7 +40,7 @@ MOOD-ATLAS/
 ├── .next/                        # Next.js build and runtime files (this folder is the final build)
 ├── app/                          # main application code with all the indivisual files
 │   ├── global.css                # contains all the css styles used throughout the app
-│   ├── flask_llm_call,js         # this is where the flask backend is called and also where the data sent back is recived from flask, this is called and returns its result tot processor 
+│   ├── flask_llm_call.js         # this is where the flask backend is called and also where the data sent back is recived from flask, this is called and returns its result tot processor 
 │   ├── layout.js                 # defines the layout of the app i.e the header main page etc
 │   ├── location_card.js          # contains the logic for displaying location cards with images etc on the map
 │   ├── map.js                    # contains the main google map component 
@@ -61,10 +59,10 @@ MOOD-ATLAS/
 ```
 
 ## How the Website Works
-- the user inputs the required stuff and then clicks submit, initally there location is shown on the map
-- this submitted data is propigated to the llmprocessing here we first fetch the nearby places by using google maps api and then we use this location data along with the user inputs to proccess the data and generate recommendations
-- these recommendations contain data from the json file that the places fetch gave us this data is parsed and sent back to the main page
-- once all this is done we display the location on the location card which sits ontop of the map which now displays the recommended place
+- the user inputs the required stuff and then clicks submit, initally there location is shown on the map.
+- this submitted data is propigated to the llmprocessing here we first fetch the nearby places by using google maps api and then we use this location data along with the user inputs to proccess the data and generate recommendations.
+- these recommendations contain info about the object that when returned to the frontend can be parsed and extracted for things like location, address etc.
+- once all this is done we display the location on the location card which sits ontop of the map which now displays the recommended place along with additional info.
 
 **Ex Data, the places nearby search returns us a json file that looks something like this, this data is needed for the website to work**
 ```json
@@ -89,6 +87,15 @@ MOOD-ATLAS/
 }
 ```
 
+**EX LLM promt, here is an example of what the prompt might look like to ask the llm to pick a place**
+```python
+llm = chatopenai(model, key, etc)
+my_promt = " FOLLOW THESE INSTRUCTION WITH DATA {places},{mood},{etc}  " # fill in with actual data from fontend
+response = llm.promt(my_promt)
+place_key = reponse[0]
+# ETC ETC 
+```
+
 ## End Goal
 Create And Deploy This Project As A Web App, Giving user free accsess to the website along with unlimited api calls for there results (or until i run out of money)
 
@@ -96,10 +103,13 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 
 **Current Version**
 - Home page when first loading in:
-<img src="./assets/latest.png" alt="Home" width="600" height="auto" />
+<img src="./assets/firstin.png" alt="Home" width="600" height="auto" />
+- After submitting the form:
+<img src="./assets/afterpromt.png" alt="Home" width="600" height="auto" />
+- Backend Servers (running locally)
+<img src="./assets/server.png" alt="Home" width="600" height="auto" />
 
 **TODO**: 
-
 - Fix cors issue for google places api
 - Fix 60 limit for places (possible sol: more cords to x ammount in x direction accumalate results do this x times merge unique results fin)
 - add spring boot and DB

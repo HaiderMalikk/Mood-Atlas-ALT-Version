@@ -4,7 +4,6 @@ from langchain_openai import ChatOpenAI # LLM model
 from langchain_core.prompts import ChatPromptTemplate # for making custom prompts
 from dotenv import load_dotenv # for loading environment variables
 import os # for accessing environment variables
-import json # for loading JSON data
 
 # Create Flask app
 app = Flask(__name__)
@@ -102,4 +101,4 @@ def process_places():
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)  # Run the app on port 8080
+    app.run(debug=True, port=8080)  # Run the app on port 8080, TURN OFF DEBUG MODE IN PRODUCTION

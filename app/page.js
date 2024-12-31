@@ -60,6 +60,7 @@ const WelcomePage = () => {
     }
   
     setLoading(true); // Set loading to true before making API call
+    console.log("All inputs filled Sending Processing Request");
   
     // Process inputs
     const result = await processInputs(mood, hobby, activity, userCoordinates, radius);

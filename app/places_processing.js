@@ -3,7 +3,7 @@ import { fetchPlaces } from "./places_fetch";
 import { fetchFlaskData } from "./flask_llm_call";
 
 export async function processInputs(mood, hobby, activity, userCoordinates, radius) {
-  console.log(`Starting place processing for mood: ${mood}, hobby: ${hobby}, activity: ${activity}, coordinates: ${userCoordinates}, radius: ${radius}`);
+  console.log(`Starting place processing for mood: ${mood}, hobby: ${hobby}, activity: ${activity}, coordinates: Lat: ${userCoordinates.lat}, Lng: ${userCoordinates.lng}, radius: ${radius}`);
   try {
     // Fetch places using the helper function
     const places = await fetchPlaces(userCoordinates, radius);

@@ -111,11 +111,15 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 
 **TODO**: 
 
-- add algo so res for mood atlas math determine user location factor
-
-- make location radial ofset engine better
-
 - add spring boot and DB
 
+
+
+
 - Fix cors issue for google places api
+- add llm to js
 - Fix CSS
+- make location radial ofset engine better (no need for constant ?)
+
+
+- add algo so res for mood atlas math determine user location factor

@@ -41,7 +41,7 @@ def process_places():
             print("Processing places...")
             # Create a new ChatOpenAI model
             OPENAPI_API_KEY = os.environ.get('OPENAI_API_KEY')
-            llm = ChatOpenAI(model="gpt-4o-mini", api_key=OPENAPI_API_KEY, temperature=0.8, max_tokens=2048)
+            llm = ChatOpenAI(model="gpt-4o-mini", api_key=OPENAPI_API_KEY, temperature=0.8)
             # create prompt
             prompt_template = """
             You are a place selector your job is to find a place for the attributes of the user which are as follows:
@@ -60,6 +60,9 @@ def process_places():
             YOU MUST RETURN A VALID INTEGER AND NOTHING ELSE, EVEN IF THE USER HAS NO MATCHING PLACE RETURN YOU BEST GUESS. ALSO RETURN A MATCH PERCENTAGE EVEN IF ITS 0
             JUST FOR YOU REFERENCE THE MAX NUMBER YOU CAN GOTO IS THE MAX NUMBER OF OBJECTS IN THE LIST OF PLACES WHICH IS: {places_len}
             
+            NOTE: avoid places like: Hotels
+            IT IS UP TO YOU TO DECIDE WHICH PLACES ARE FROM THE PLACES TO AVOID BY THERE NAME
+            
             Here is the list of places:
             {places}
             """
@@ -72,18 +75,32 @@ def process_places():
             # format of result_answer is a string in format int, int = key, match_score so i split on ',' to get both values sepretly
             answer = result_answer.split(',') # format: key, match_score 
             final_place_number = answer[0]
-            match_score = answer[1]
+            match_score = answer[1] + "%"
             print(f"Final Place Number: {final_place_number}, Match Score: {match_score}")
+            
+            status = "LLM was invoked"
             # error check
-            if final_place_number == 'None' or int(final_place_number) > len(places):
+            error = False
+            if not final_place_number.isdigit():
                 final_place_number = 0 # set to 0 if no match 0 is the city itself
-            if match_score == 'None':
+                status += " | Could Not Calculate Place Number: It was not a number"
+                error = True
+            elif int(final_place_number) > len(places):
+                final_place_number = 0 # set to 0 if no match 0 is the city itself
+                status += " | Could Not Calculate Place Number: It was not in range"
+                error = True
+            if match_score == 'None' or not match_score.isdigit():
                 match_score = "Could Not Calculate"
+                status += " | Could Not Calculate Match Score"
+                error = True
+            if not error:
+                status += " | Place generation was a success"
 
             # Construct response data
             response_data = {
                 'place number from llm': final_place_number, 
-                'matchscore': match_score
+                'matchscore': match_score,
+                'status': status
             }
         else:
             print("Invalid JSON format in request.")

@@ -24,7 +24,7 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
       }
 
       const finalPlaceNumber = flaskResult["place number from llm"];
-      console.log("Final place number:", finalPlaceNumber);
+      console.log(`Final place number: ${finalPlaceNumber}`);
       const matchpercentage = flaskResult["matchscore"];
 
       console.log("Getting place details");
@@ -39,8 +39,8 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
       const coordinates = finalPlace.geometry.location;
       const reviews = finalPlace.rating;
 
-      console.log(`Final Processed Place: Name - ${title}, Address - ${address}, Photo URL - ${photoReference} coordinates - ${coordinates} reviews - ${reviews} matchpercentage - ${matchpercentage}%`);
-
+      console.log(`Final Processed Place: Name - ${title}, Address - ${address}, Photo URL - ${photoReference}, coordinates - lat: ${coordinates.lat}, lng: ${coordinates.lng}, reviews - ${reviews} matchpercentage - ${matchpercentage}%`);
+      console.log("Sending final place to page for rendering");
       return { name: title, address: address, photoReference: photoReference, coordinates: coordinates, reviews: reviews, matchpercentage: matchpercentage};
 
     } else {

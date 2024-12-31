@@ -24,7 +24,7 @@ const WelcomePage = () => {
       alert("You Location could not be found, setting default to Toronto");
       setUserCoordinates({ lat: 43.6532, lng: -79.3832 });
     }
-    console.log("User coordinates set to:", coordinates);
+    console.log(`User coordinates set to: coordinates: lat: ${coordinates.lat}, lng: ${coordinates.lng}`);
     };
     getcoordinates();
 
@@ -78,13 +78,28 @@ const WelcomePage = () => {
     if (result.coordinates) {
       const { lat, lng } = result.coordinates;
       setUserCoordinates({ lat, lng });
-      console.log("User coordinates set to:", { lat, lng });
+      console.log(`User coordinates set to: lat: ${lat}, lng: ${lng}`);
     } else {
       console.log("No coordinates found in result");
     }
+
+    // loging user info to spring boot backend (error handling done before this info is made so no need to do it again )
+    const userInfo = {
+      mood: mood,
+      activity: activity,
+      hobby: hobby,
+      userCoordinates: userCoordinates,
+      radius: radius,
+      placename: result.name,
+      placelocation: result.address,
+      matchscore: result.matchpercentage
+    }
+    console.log("Sending user info to backend, user info: ", userInfo);
+
   
     setLoading(false); // Set loading to false after processing data is complete
     setDone(true); // Set done to true when the process is complete
+    console.log("Done with processing Displaying results");
   };
   
 
@@ -104,8 +119,6 @@ const WelcomePage = () => {
     });
     setDone(false); // Reset done state
   };
-
-  console.log("building page");
 
   return (
     <div className="container">

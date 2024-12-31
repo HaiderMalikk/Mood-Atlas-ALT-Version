@@ -50,7 +50,7 @@ export async function fetchPlaces(userCoordinates, radius) {
   Everything so far is as follows:
   */
  const baseOffset = radius / 111;
- console.log("Base offset for radius:", radius,"km is: ", baseOffset);
+ console.log(`Base offset for radius: ${radius} is: ${baseOffset}`);
  
  function calculateOffset(userLat, baseOffset) {
    // Convert latitude to radians
@@ -76,7 +76,7 @@ export async function fetchPlaces(userCoordinates, radius) {
   const latoffset = newoffset.latOffset; // lat is of with no ofset its ofset will corisponf to radius with no addition of constant
   const lngoffset = newoffset.lngOffset + range_filler_constant_lng;
 
-  console.log("Serching with new offsets: Lat offset:", latoffset, "Lng offset:", lngoffset);
+  console.log(`Serching with new offsets: Lat offset: ${latoffset} Lng offset: ${lngoffset}`);
   
   // Recursive function to fetch all pages
   async function fetchAllPlaces(url, params, allPlaces = []) {
@@ -171,9 +171,9 @@ export async function fetchPlaces(userCoordinates, radius) {
   // Remove duplicates before returning
   const uniqueResults = removeDuplicates(allResults);
 
-  console.log('Finished fetching all places. Total places fetched:', allResults.length);
-  console.log('Total unique places fetched:', uniqueResults.length);
-  console.log('Unique places:', uniqueResults);
+  console.log(`Finished fetching all places. Total places fetched: ${uniqueResults.length}`);
+  console.log(`Total unique places fetched: ${uniqueResults.length}`);
+  console.log("Unique places: ", uniqueResults);
   console.log('Returning unique places to processor...');
 
   return uniqueResults;

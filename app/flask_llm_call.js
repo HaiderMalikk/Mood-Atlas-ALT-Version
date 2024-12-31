@@ -24,7 +24,7 @@ export async function fetchFlaskData(places, mood, hobby, activity) {
     }
 
     const data = await response.json();
-    console.log("Data received from Flask:", data, 'sending to proccess file');
+    console.log("Data received from Flask: sending to proccess file. Data from flask:", data);
 
     return data; // Return the response from Flask
   } catch (error) {

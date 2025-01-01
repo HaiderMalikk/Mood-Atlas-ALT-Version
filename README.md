@@ -2,7 +2,7 @@
 
 ## Project Summary: **Mood Atlas**
 
-**Mood Atlas** is an innovative app that recommends destinations based on user moods, places, or feelings. The project integrates multiple technologies for seamless functionality. The combination of AI and real-time data creates a personalized experience, guiding users to destinations that match their feelings. This app is currently in development and is expected to be released in the near future. **See the bottom of this file for the latest updates**.
+**Mood Atlas** is an innovative app that recommends destinations based on user moods, places, or feelings. The project integrates multiple technologies for seamless functionality. The combination of AI and real-time data creates a personalized experience, guiding users to destinations that match their feelings. This app is expected to be released in the near future. **See the bottom of this file for the latest updates**.
 
 - **Frontend**:  
   - Developed with **React** and **Next.js**.  
@@ -15,8 +15,7 @@
   - Leverages **ChatGPT’s LLM** to generate personalized place recommendations.    
 
 - **Spring Boot Backend**:  
-  - Manages user data (e.g., name, email) via **SQL** and **Postman**.  
-  - Stores user favorites in a **Firebase** database, linked to their email.  
+  - Manages user data (e.g., mood, location, placeRecomended) via **SQL** and **Postman**.  
 
 ## **Technologies Used in Mood Atlas**
 
@@ -27,10 +26,9 @@
 - **Other API's**: Uses ipapi to get the users initial location, uses heroku to allow user to get places near them eithout using a external api file or dealing with CORS issues.
 - **Flask**: A python web framework that allows for the creation of backend APIs, used for processing user prompts and location data.
 - **ChatGPT’s LLM (Large Language Model)**: A powerful AI language model by OpenAI used to process and generate human-like responses to user input, providing personalized recommendations.
-- **SQL**: A standardized programming language used to manage and manipulate relational databases, employed here to store user data and interactions in the Spring Boot backend.
+- **Spring Boot**: A Java-based framework used to build the back-end API, manage user data.
+- **SQL**: used to manage and manipulate user data from the Sprig App.
 - **Postman**: A tool for testing and interacting with APIs, ensuring the functionality of the Spring Boot backend through the creation and execution of requests.
-- **Firebase**: A platform for building mobile and web applications, used here to store user preferences and favorites in a real-time NoSQL database.
-- **Spring Boot**: A Java-based framework used to build the back-end API, manage user data, and handle server-side logic in the Mood Atlas app.
 
 ## Project Structure
 -**Not including the default Next.js files/ untouched files**
@@ -47,12 +45,16 @@ MOOD-ATLAS/
 │   ├── page.js                   # the main page of the app with all the formating and order of components i.e where the map, location etc are and there logic along with the user inputs 
 │   ├── places_fetch              # contains the logic for fetching places from google places api to give to the processor for it to forward it to flask
 │   ├── places_processing.js      # this is where all the inputs are recived and where we get the places send it to flask get its response and resturn the result to the page
+│   ├── post_users.js             # contains the logic for posting user data to the spring boot backend
 │   └── user_location.js          # This is where we get the user's initilal location from ipapi api.
 ├── assets/                       # contains all the static assets like images etc
 ├── flask-placefinder-backend/    # contains the python backend code for processing user input and generating recommendations
 │   ├── jupyter_tests/            # contains the jupyter notebooks for testing the python backend along with some test data
 │   └── server.py                 # the main flask server file where we get the data from the app files and then the llm is prompted to return a result back to the user
 ├── spring-backend/               # contains the spring boot backend code for the user data
+│   ├── src/                      # root directory of the spring boot project
+│   │   ├── main/                 # contains the main application class contains the User class that defines the data so be posted, controllers for api requests, user repo, actual runnable class for the springboot init, application props and more
+│   └── pom.xml                   # pom file contaning all the imports for the springboot project                
 ├── utils/                        # contains utility functions used throughout the app like global colors etc
 ├── next.config.mjs               # contains the configuration for the next.js app like trusted domains etc
 └── tailwind.config.mjs           # contains the configuration for tailwind css
@@ -60,9 +62,10 @@ MOOD-ATLAS/
 
 ## How the Website Works
 - the user inputs the required stuff and then clicks submit, initally there location is shown on the map.
-- this submitted data is propigated to the llmprocessing here we first fetch the nearby places by using google maps api and then we use this location data along with the user inputs to proccess the data and generate recommendations.
-- these recommendations contain info about the object that when returned to the frontend can be parsed and extracted for things like location, address etc.
-- once all this is done we display the location on the location card which sits ontop of the map which now displays the recommended place along with additional info.
+- this submitted data is propigated to the places fetch here we first fetch the nearby places by using google maps api and then we use this location data along with the user inputs to the flask backend. We proccess the data and generate recommendations for the user and return it.
+- this recommendations places object contain info about the places that can be parsed and extracted for things like location, address etc.
+- once all this is done we first send this user promt data to the springboot backend to be stored in a sql database. Then we display the location to the user with the map and location card.
+** below are some ex snippets of code detailing important parts of the proccess (NOT COMPLETE CODE JUST PARTS OF IT)
 
 **Ex Data, the places nearby search returns us a json file that looks something like this, this data is needed for the website to work**
 ```json
@@ -87,27 +90,130 @@ MOOD-ATLAS/
 }
 ```
 
+**RADIAL OFFSET ENGINE**
+- google maps api only gives a max of 60 places for a set of cordinate to overcome this i made my own radial offset engine, this engine takes the user's location serches places there then moves a certain distance (base offset) in the N, S, E, W directions away from the users original location. This allows it to make 60 * n searches where n is the number of location offsets we do, We ofcourse first serch the users location before moving, each one takes some time so its best to decide wisely how many times you want to fetch those places at new locations. for us n = 4 as we N,S,E,W
+- first we start with a base ofset this is the radus/111km meaning adding 1 (offset) to the users cordinate for lat will move the location 111km north. as lat is the change in N,S and lng is the change in E,W.
+- BUT we must find the ofset for lat and lng for lat the ofset will always take us the same distance away from the user's location but for lng it will take us a different distance away depending on the lat this is beacuse as we move north or south the distance between each degree of longitude changes. Cloaser to the poles the lng ofset i.e the change in lng will repersent a smaller distance than that at the equator.
+- then we must search in our desired directions 4 times, we only go N,S,E,W. If we want to go north for ex we add to the users lat the latofset this moves the user north by the ofset ammount 
+- NOTE: the 60 places that you get for a place is also devided into 20 places per page you must goto the next page for the next 20 untill theres no next page then you get 60
+- so for each recursive place hop we must recursively serch that same place but its next page giving us the next 20 places at that same place
+- after everything is done we remove duplicates places before returning places
+- NOTE: all this means you can have n ofsets in N,S,E,W directions all you need to do is change the ofset when you serch the same direction again
+``` javascript
+// ofset calculator
+const baseOffset = radius / 111; // dirived formula see places.fetch for dirivation
+// main function to calculate ofset
+function calculateOffset(userLat, baseOffset) {
+  const latInRadians = (userLat * Math.PI) / 180;
+  const longitudeScale = Math.cos(latInRadians); // deriving lng scale i.e the shrinking in lng from lat ofset
+  const dynamicLongitudeOffset = baseOffset * longitudeScale; // new lng ofset based on base ofset 
+  return {
+    latOffset: baseOffset, // Latitude offset is the same regardless of the latitude
+    lngOffset: dynamicLongitudeOffset, // new Longitude offset 
+  };
+}
+const newoffset = calculateOffset(lat, baseOffset);
+const range_filler_constant_lng = 0.15; // derived constant to account for errors in the function
+const latoffset = newoffset.latOffset; 
+const lngoffset = newoffset.lngOffset + range_filler_constant_lng;
+
+// resursive call for location getting all the pages
+async function fetchAllPlaces(page, userinfo, allPlaces = []) {
+  data = getplacedata()
+  allPlaces = allPlaces.concat(data)
+
+  if (data.nextpage){
+    page = data.nextpage
+    return fetchAllPlaces(page, allPlaces); // serch the same place again but next page
+  }
+
+  return allPlaces;
+}
+
+// function to serch places
+async function searchWithOffset(lat, lng, direction) {
+    const adjustedLat = direction === 'N' ? lat + latoffset : direction === 'S' ? lat - latoffset : lat; 
+    const adjustedLng = direction === 'E' ? lng + lngoffset : direction === 'W' ? lng - lngoffset : lng;
+
+  // get all places at new cordinates
+  return fetchAllPlaces(
+    page, userinfo
+  );
+}
+
+// main function to get all places in the directions we want
+function main(lat, lng, direction, etc){
+  allresults += searchWithOfset(userlat, userlng, originaldirection)
+  allresults += searchWithOfset(userlat, userlng, "N")
+  // reperete for S,E,W
+  reutrn removedups(allresults)
+}
+```
+
+
 **EX LLM promt, here is an example of what the prompt might look like to ask the llm to pick a place**
 ```python
+# init backend
+app = Flask(__name__)
+@app.route('/api/home', methods=['POST', 'GET'])
+# invoke llm
 llm = chatopenai(model, key, etc)
 my_promt = " FOLLOW THESE INSTRUCTION WITH DATA {places},{mood},{etc}  " # fill in with actual data from fontend
 response = llm.promt(my_promt)
 place_key = reponse[0]
-# ETC ETC 
+response_data = {
+  'place number from llm': place_key, 
+}
+return response_data
+```
+
+**EX Spring boot class for the defined user data**
+```java
+// defined user data class from the front end the same data is sent to this class
+public class User {
+    @Id
+    @GeneratedValue
+    long id;
+    String mood;
+    String activity;
+    String hobby;
+    String userCoordinates;
+    int radius;
+    String placename;
+    String address;
+    int matchpercentage;
+}
+
+// controls the data injection
+public class usercontroller {
+  @Autowired
+  private UserRepo userRepo;
+  User newUser(@RequestBody User newUser){
+      return userRepo.save(newUser); 
+  } 
+}
+
+// runs the Spring app
+public class Application{
+  public static void main(String[] args) {
+      SpringApplication.run(DemoApplication.class, args);
+  }
+}
 ```
 
 ## End Goal
 Create And Deploy This Project As A Web App, Giving user free accsess to the website along with unlimited api calls for there results (or until i run out of money)
 
-### CURRENTLY UNDER DEVELOPMENT (there will be slight changes in the future)
-
+### DEVELOPMENT IS COMPLETE 
 **Current Version**
 - Home page when first loading in:
 <img src="./assets/firstin.png" alt="Home" width="600" height="auto" />
 - After submitting the form:
 <img src="./assets/afterpromt.png" alt="Home" width="600" height="auto" />
 - Backend Servers (running locally)
+- Top left: node terminal for next.js, Top middle: python flask terminal for backend output, Top right: next.console for debugging, middle: flask website for displaying the returned resosponse from api backend, bottom: SpringBoot terminal for backend user data management (connected to SQL)
 <img src="./assets/server.png" alt="Home" width="600" height="auto" />
-
-**TODO**: 
-- update readme
+- SQL database for user data
+<img src="./assets/sql.png" alt="Home" width="600" height="auto" />
+- Postman for API testing 
+<img src="./assets/post.png" alt="Home" width="600" height="auto" />

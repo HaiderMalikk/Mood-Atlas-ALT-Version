@@ -24,6 +24,13 @@ export async function fetchPlaces(userCoordinates, radius) {
   but it dose the E, W movement so we need to account for this
   So we will return a modified offset for lng (e,w) while the base offset is for N,S (north,south) will be the same as the lat offset
 
+  SOL:
+  lng offset = base offset * Math.cos(latInRadians) 
+  this factor scales the longitude offset appropriately. 
+  At the equator (latitude = 0), cos(0) = 1, so the longitude offset is equal to the base offset. 
+  At the poles (latitude = ±90), cos(±90) = 0, so the longitude offset becomes 0, 
+  which is correct since longitude lines converge at the poles.
+
   - BASE OFFSET:
   as for the base ofset a this determines how much we move our cordinates N, S, E, W i.e how many meters we move in any direction
   once we move to that new point we serch for places in that area again so this is important to account for
@@ -42,6 +49,9 @@ export async function fetchPlaces(userCoordinates, radius) {
   solving for ofset we get: ofset = km to add / 111km
   the km to add should be the radius ! DONE!
   so for a radius of 25km our ofset should be 25km / 111km = 0.2252
+
+  as we move towards the poles 1 deg of lng is shorter than at the equator hence the lng ofset will be smaller than the lat ofset in most cases
+  i.e the change in lng covers a smaller distance than the same change in lng at the equator
 
   BUT ! BUT ! theres a problem in real life the new lng ofset is a bit off from real life 
   hence i must add to either the radius or add a constant
@@ -116,7 +126,7 @@ export async function fetchPlaces(userCoordinates, radius) {
   // Function to remove duplicates based on place IDs
   function removeDuplicates(places) {
     const uniquePlaces = [];
-    const placeIds = new Set();
+    const placeIds = new Set(); // set cannot have duplicates
 
     for (const place of places) {
       if (!placeIds.has(place.place_id)) {
@@ -167,6 +177,12 @@ export async function fetchPlaces(userCoordinates, radius) {
 
   // West search
   allResults.push(...(await searchWithOffset(lat, lng, 'W')));
+
+  /* 
+  // here we can have n ofsets is N,S,E,W,Original all we need to do is add a offset here to the lat or lng when we search the same direction
+  // what this dose is shift the users original location, giving us a new search area and hence new places
+  // it will still add the ofset but to this new users location, be careful of user radius and time for each fetch  
+  */
 
   // Remove duplicates before returning
   const uniqueResults = removeDuplicates(allResults);

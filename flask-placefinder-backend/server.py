@@ -89,7 +89,7 @@ def process_places():
                 final_place_number = 0 # set to 0 if no match 0 is the city itself
                 status += " | Could Not Calculate Place Number: It was not in range"
                 error = True
-            if match_score == 'None' or not match_score.isdigit():
+            if match_score == 'None':
                 match_score = "Could Not Calculate"
                 status += " | Could Not Calculate Match Score"
                 error = True

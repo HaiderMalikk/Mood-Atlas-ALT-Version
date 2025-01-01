@@ -8,44 +8,45 @@ import jakarta.persistence.Id;
 @Entity
 public class User {
 
+    // auto gen the id for each new input
     @Id
     @GeneratedValue
-    private Long id;
-    private String UserName;
-    private String Name;
-    private String email;
+    // variables from frontend
+    long id;
+    String mood;
+    String activity;
+    String hobby;
+    String userCoordinates;
+    int radius;
+    String placename;
+    String address;
+    int matchpercentage;
 
-
-    // getters / settters
-    public Long getId() {
-        return id;
+    // setters for private
+    public void setMood(String mood) {
+        this.mood = mood;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setActivity(String activity) {
+        this.activity = activity;
     }
-
-    public String getUserName() {
-        return UserName;
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
     }
-
-    public void setUserName(String userName) {
-        UserName = userName;
+    public void setUserCoordinates(String userCoordinates) {
+        this.userCoordinates = userCoordinates;
     }
-
-    public String getName() {
-        return Name;
+    public void setRadius(int radius) {
+        this.radius = radius;
     }
-
-    public void setName(String name) {
-        Name = name;
+    public void setPlacename(String placename) {
+        this.placename = placename;
     }
-
-    public String getEmail() {
-        return email;
+    public void setAddress(String address) {
+        this.address = address;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMatchpercentage(int matchpercentage) {
+        this.matchpercentage = matchpercentage;
     }
+    
+
 }

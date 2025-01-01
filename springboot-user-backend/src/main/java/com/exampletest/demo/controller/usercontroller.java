@@ -15,15 +15,10 @@ public class usercontroller {
     @Autowired
     private UserRepo userRepo;
 
-    @PostMapping("/user")// path for postman
+    // setting user info
+    @PostMapping("/user")// path for postman (comes after http .... 8080 then /users)
     // json request for adding new user with 3 vars + id
     User newUser(@RequestBody User newUser){
         return userRepo.save(newUser); // returns saved data
-    } // now we can add to sql using post man teh outline is set now 
-
-    // getting users w postman
-    @GetMapping("/users")
-    List<User> getAllUsers(){
-        return userRepo.findAll(); // find all given by gpa
-    }
+    } // now we can add to sql using post man teh outline is set now
 }

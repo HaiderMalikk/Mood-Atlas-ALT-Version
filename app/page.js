@@ -4,6 +4,7 @@ import { Map } from "./map";
 import { LocationCard } from "./location_card";
 import { processInputs } from "./places_processing";
 import { fetchUserCoordinates } from "./user_location"
+import {PostUser} from "./post_user"
 import "./globals.css";
 
 const WelcomePage = () => {
@@ -95,6 +96,16 @@ const WelcomePage = () => {
       matchscore: result.matchpercentage
     }
     console.log("Sending user info to backend, user info: ", userInfo);
+    // call function to post user info
+    PostUser(userInfo)
+    .then((response) => {
+      console.log("User info successfully posted:", response);
+      // Handle success (e.g., show confirmation or update UI)
+    })
+    .catch((error) => {
+      console.error("Error posting user info:", error);
+      // Handle error (e.g., show error message)
+    });
 
   
     setLoading(false); // Set loading to false after processing data is complete

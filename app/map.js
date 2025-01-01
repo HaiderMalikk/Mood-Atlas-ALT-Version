@@ -5,6 +5,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 
 export function Map({userCoordinates}) {
   const mapRef = useRef(null); // use ref so that the map can render itself
+  const mapicon = "https://maps.google.com/mapfiles/ms/icons/orange-dot.png"
 
   useEffect(() => {
     const getMap = async () => {
@@ -42,6 +43,7 @@ export function Map({userCoordinates}) {
         new Marker({
           map: map,
           position: position,
+          icon: mapicon,
         });
         console.log('Marker created');
       } else {

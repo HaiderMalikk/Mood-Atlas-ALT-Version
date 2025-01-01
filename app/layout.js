@@ -31,13 +31,16 @@ const Layout = ({ children }) => {
                 style={{ margin: 0, cursor: 'pointer' }}
                 onClick={toggleAboutPopup}
               >
+                <img src="https://img.icons8.com/?size=100&id=82450&format=png&color=000000" alt="About" style={{ width: '20px', height: '20px', marginTop: '-10px', marginBottom: '-5px', marginRight: '5px'}} />
                 About
               </h1>
             </div>
             {/* Github on the right */}
             <div style={{ display: 'flex', gap: '20px',}}>
               <a href="https://github.com/HaiderMalikk/Mood-Atlas" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none',}}>
-                <h1 className="github-header button" style={{ margin: 0, cursor: 'pointer',}}>Github</h1>
+                <h1 className="github-header button" style={{ margin: 0, cursor: 'pointer',}}>
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="Github" style={{ width: '20px', height: '20px', marginTop: '-10px', marginBottom: '-5px', marginRight: '5px'}} />
+                  Github</h1>
               </a>
             </div>
           </nav>
@@ -62,7 +65,7 @@ const Layout = ({ children }) => {
                 <h3>How does it work?</h3>
                 <p>To Learn How it Works, Click on the 'Github' icon on the top right. This will give you a in-depth look at the code and how it was built and how it works.</p>
                 <h3>About the Developer</h3>
-                <p>Developed by Haider Malik, a software engineer with a passion for creating innovative AI applications. </p>
+                <p>Developed by <a href="https://haidermalikk.github.io/HaiderMaliksWebsite/" target="_blank" rel="noopener noreferrer">Haider Malik</a>, a software engineer with a passion for creating innovative AI applications.</p>
                 <button
                   onClick={toggleAboutPopup}
                   className="close-button"

@@ -315,7 +315,8 @@ function main(lat, lng, direction, etc){
 
 Create And Deploy This Project As A Web App, Giving user free access to the website along with unlimited api calls for there results (or until i run out of money)
 
-### DEVELOPMENT IS COMPLETE 
+## DEVELOPMENT IS COMPLETE 
+
 **Current Version**
 - Home page when first loading in:
 <img src="./assets/firstin.png" alt="Home" width="600" height="auto" />

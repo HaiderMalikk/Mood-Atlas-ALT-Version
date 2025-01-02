@@ -1,5 +1,9 @@
-### "Chart your feelings, discover your destination."
+<h1 style="border-bottom: none; margin: 0; color:orange">Mood Atlas</h1>
 
+*"Chart your feelings, discover your destination"*
+
+#
+#
 ## Project Summary: **Mood Atlas**
 
 **Mood Atlas** is an innovative app that recommends destinations based on user moods, places, or feelings. The project integrates multiple technologies for seamless functionality. The combination of AI and real-time data creates a personalized experience, guiding users to destinations that match their feelings. This app is expected to be released in the near future. **See the bottom of this file for the latest updates**.
@@ -29,6 +33,7 @@
 - **Spring Boot**: A Java-based framework used to build the back-end API, manage user data.
 - **SQL**: used to manage and manipulate user data from the Sprig App.
 - **Postman**: A tool for testing and interacting with APIs, ensuring the functionality of the Spring Boot backend through the creation and execution of requests.
+
 
 ## Project Structure
 -**Not including the default Next.js files/ untouched files**
@@ -61,44 +66,211 @@ MOOD-ATLAS/
 ```
 
 ## How the Website Works
+
 - the user inputs the required stuff and then clicks submit, initally there location is shown on the map.
 - this submitted data is propigated to the places fetch here we first fetch the nearby places by using google maps api and then we use this location data along with the user inputs to the flask backend. We proccess the data and generate recommendations for the user and return it.
 - this recommendations places object contain info about the places that can be parsed and extracted for things like location, address etc.
 - once all this is done we first send this user promt data to the springboot backend to be stored in a sql database. Then we display the location to the user with the map and location card.
-** below are some ex snippets of code detailing important parts of the proccess (NOT COMPLETE CODE JUST PARTS OF IT)
+- below are some ex snippets of code detailing important parts of the proccess (NOT COMPLETE CODE JUST PARTS OF IT WITH PSUDOCODE)
 
-**Ex Data, the places nearby search returns us a json file that looks something like this, this data is needed for the website to work**
+**Ex Data, Google Places API's nearby search returns us a json file that looks something like this, this data is needed for the website to work**
+
 ```json
 {
+  "name": "Residence Inn Toronto",
+  {
+  "place_id" : "ChIJRQoITNc0K4gRMBoATwPJLYs",
+        "plus_code" : 
+  },
+  "vicinity" : "255 Wellington Street West, Toronto",
+  "location" : 
+  {
+    "lat" : 43.64192569999999,
+    "lng" : -79.3894923
+  },
+  "photos" : 
+  [
     {
-    "place_id" : "ChIJRQoITNc0K4gRMBoATwPJLYs",
-          "plus_code" : 
-    },
-    "vicinity" : "255 Wellington Street West, Toronto",
-    "location" : 
-    {
-      "lat" : 43.64192569999999,
-      "lng" : -79.3894923
-    },
-    "photos" : 
-    [
-      {
-        "photo_reference" : "AWYs27znPtKuOjv43tZBTCFngJGTvlpvSD74iz3mXFo7trkgn8-jNhGtxP0zT8OdBpgRDLX4vih2Jvs-8PcJh_KVRfKablKQgHorz3rTNh0cqulc5R5OHjdI7JM2EwzxoCm_LSn2uKNu3Fw6MuYoFgSb-GrVlDZ2uudhal7pbx1KO3m7chFA",
-      }
-    ],
-    {"etc etc this is not the exact format of the json file but it is something like this"}
+      "photo_reference" : "AWYs27znPtKuOjv43tZBTCFngJGTvlpvSD74iz3mXFo7trkgn8-jNhGtxP0zT8OdBpgRDLX4vih2Jvs-8PcJh_KVRfKablKQgHorz3rTNh0cqulc5R5OHjdI7JM2EwzxoCm_LSn2uKNu3Fw6MuYoFgSb-GrVlDZ2uudhal7pbx1KO3m7chFA",
+    }
+  ],
+  {"etc etc this is not the exact format of the json file but it is something like this"}
 }
 ```
 
-**RADIAL OFFSET ENGINE**
-- google maps api only gives a max of 60 places for a set of cordinate to overcome this i made my own radial offset engine, this engine takes the user's location serches places there then moves a certain distance (base offset) in the N, S, E, W directions away from the users original location. This allows it to make 60 * n searches where n is the number of location offsets we do, We ofcourse first serch the users location before moving, each one takes some time so its best to decide wisely how many times you want to fetch those places at new locations. for us n = 4 as we N,S,E,W
-- first we start with a base ofset this is the radus/111km meaning adding 1 (offset) to the users cordinate for lat will move the location 111km north. as lat is the change in N,S and lng is the change in E,W.
-- BUT we must find the ofset for lat and lng for lat the ofset will always take us the same distance away from the user's location but for lng it will take us a different distance away depending on the lat this is beacuse as we move north or south the distance between each degree of longitude changes. Cloaser to the poles the lng ofset i.e the change in lng will repersent a smaller distance than that at the equator.
-- then we must search in our desired directions 4 times, we only go N,S,E,W. If we want to go north for ex we add to the users lat the latofset this moves the user north by the ofset ammount 
-- NOTE: the 60 places that you get for a place is also devided into 20 places per page you must goto the next page for the next 20 untill theres no next page then you get 60
-- so for each recursive place hop we must recursively serch that same place but its next page giving us the next 20 places at that same place
-- after everything is done we remove duplicates places before returning places
-- NOTE: all this means you can have n ofsets in N,S,E,W directions all you need to do is change the ofset when you serch the same direction again
+**EX LLM promt, here is an example of what the prompt might look like to ask the llm to pick a place**
+```python
+# init backend
+app = Flask(__name__)
+@app.route('/api/home', methods=['POST', 'GET'])
+# invoke llm
+llm = chatopenai(model, key, etc)
+my_promt = " FOLLOW THESE INSTRUCTION WITH DATA {places},{mood},{etc}  " # fill in with actual data from fontend
+response = llm.promt(my_promt)
+place_key = reponse[0]
+response_data = {
+  'place number from llm': place_key, 
+}
+return response_data
+```
+
+**EX Spring boot class for the defined user data**
+
+```java
+// defined user data class from the front end the same data is sent to this class
+public class User {
+    @Id
+    @GeneratedValue
+    long id;
+    String mood;
+    String activity;
+    String hobby;
+    String userCoordinates;
+    int radius;
+    String placename;
+    String address;
+    int matchpercentage;
+}
+
+// controls the data injection
+public class usercontroller {
+  @Autowired
+  private UserRepo userRepo;
+  User newUser(@RequestBody User newUser){
+      return userRepo.save(newUser); 
+  } 
+}
+
+// runs the Spring app
+public class Application{
+  public static void main(String[] args) {
+      SpringApplication.run(DemoApplication.class, args);
+  }
+}
+```
+
+<h2 style="border-bottom: none; margin: 0;">RADIAL OFFSET ENGINE</h1>
+
+*Radial Offset Engine for Google Maps Places API*
+
+<img src="./assets/radial.png" alt="Home" width="600" height="auto" />
+
+---
+
+### Overview
+The Google Maps API limits the number of places returned to **60 per set of coordinates**, split into **20 places per page**. To overcome this, a **radial offset engine** was created to fetch additional places by searching at nearby offsets in **North (N)**, **South (S)**, **East (E)**, and **West (W)** directions.
+
+This engine performs \(60 $\times$ n\) searches, where **n** is the number of offset locations. In our case, **n = 4** (N, S, E, W). Each additional search takes time, so the number of offsets should be chosen wisely. 
+
+After gathering all places:
+1. Recursively fetch **next pages** for each location until there are no pages left.
+2. Remove duplicate places before returning the final list.
+
+---
+
+### Offset Calculation
+
+### 1. **Latitude Offset (Base Offset):**
+   - Latitude changes by a constant distance everywhere on Earth.
+   - this offset is in degrees: $1^\circ$ $\ \approx 111.32 km$
+   - Formula for offset:
+     $$
+     \text{latOffset} = \frac{\text{radius}}{111.32}
+     $$
+   - **Example:** For a radius of **25 km**:
+     $$
+     \text{latOffset} = \frac{25}{111.32} \approx 0.224^\circ
+     $$
+   - Add this offset to the user’s latitude to move **North** or subtract it to move **South**.
+
+### 2. **Longitude Offset:**
+   - Longitude offsets depend on the latitude because the Earth's radius decreases as you move toward the poles.
+   - Formula for longitude scaling:
+     $$
+     \text{lngScale} = \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)
+     $$
+   - Adjusted longitude offset:
+     $$
+     \text{lngOffset} = \text{latOffset} \cdot \text{lngScale}
+     $$
+   - **Example:** 
+     - At the equator \( $\text{lat} = 0^\circ$ \), \( $\text{lngScale} = 1$ \), so:
+       $$
+       \text{lngOffset} = \text{latOffset}
+       $$
+     - At the poles \( $\text{lat} = \pm90^\circ$ \), \( $\text{lngScale} = 0$ \), so \( $\text{lngOffset} = 0$ \).
+
+### 3. **Recursive Fetching:**
+   - For each location, fetch places for all pages (20 places per page) until no more pages are left.
+
+---
+
+### Directions of Search
+- **N/S**: Add or subtract the `latOffset` to/from the latitude respectively.
+- **E/W**: Add or subtract the `lngOffset` to/from the longitude respectively.
+---
+
+### Coordinate Offsets Example
+
+### Given:
+- **User coordinates:**  
+  - Lat: 43.6532, Lng: -79.3832  
+- **Radius:** 25 km
+
+### Step 1: Calculate Latitude Offset  
+$\text{latOffset} = \frac{\text{radius}}{111.32} = \frac{25}{111.32} \approx 0.2246^\circ$
+
+### Step 2: Calculate Longitude Offset  
+$\text{lngScale} = \cos\left(\frac{43.6532 \times \pi}{180}\right) \approx 0.722$
+
+$\text{lngOffset} = 0.2246 \times 0.722 \approx 0.1622^\circ$
+
+### Step 3: North Move (Increase Latitude)  
+New Coordinates:  
+- Lat: \( 43.6532 + 0.2246 = 43.8778 \)  
+- Lng: -79.3832  
+
+**North Move:** \( (43.8778, -79.3832) \)
+
+### Step 4: East Move (Increase Longitude)  
+New Coordinates:  
+- Lat: 43.6532  
+- Lng: \( -79.3832 + 0.1622 = -79.2210 \)
+
+**East Move:** \( (43.6532, -79.2210) \)
+
+### And So On for The Other Directions...
+---
+
+### Implementation Summary
+1. **Base Offset:** Calculate the latitude offset using the radius:
+   $$
+   \text{latOffset} = \frac{\text{radius}}{111.32}
+   $$
+
+2. **Longitude Adjustment:** Calculate the longitude offset by scaling the latitude offset:
+   $$
+   \text{lngOffset} = \text{latOffset} \cdot \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)
+   $$
+
+3. **Recursive Searches:** Perform up to **n** searches in the N, S, E, W directions. For each search:
+   - Fetch all 20 places per page until no pages are left.
+   - Remove duplicates.
+
+4. **Final Output:** Return the unique list of places.
+---
+
+### Notes
+- The engine fetches **n offsets** in N, S, E, W directions. The number of offsets can be increased by further adjusting the latitude and longitude offsets dynamically.
+- Ensure all places are de-duplicated to avoid redundant results.
+---
+
+### Advantages
+- Overcomes the **60-places limit** of the Google Maps API.
+- Dynamically adjusts longitude offsets based on latitude, ensuring consistent distances.
+
+---
+### (Psudo Code Example)
 ``` javascript
 // ofset calculator
 const baseOffset = radius / 111; // dirived formula see places.fetch for dirivation
@@ -150,68 +322,20 @@ function main(lat, lng, direction, etc){
 }
 ```
 
-
-**EX LLM promt, here is an example of what the prompt might look like to ask the llm to pick a place**
-```python
-# init backend
-app = Flask(__name__)
-@app.route('/api/home', methods=['POST', 'GET'])
-# invoke llm
-llm = chatopenai(model, key, etc)
-my_promt = " FOLLOW THESE INSTRUCTION WITH DATA {places},{mood},{etc}  " # fill in with actual data from fontend
-response = llm.promt(my_promt)
-place_key = reponse[0]
-response_data = {
-  'place number from llm': place_key, 
-}
-return response_data
-```
-
-**EX Spring boot class for the defined user data**
-```java
-// defined user data class from the front end the same data is sent to this class
-public class User {
-    @Id
-    @GeneratedValue
-    long id;
-    String mood;
-    String activity;
-    String hobby;
-    String userCoordinates;
-    int radius;
-    String placename;
-    String address;
-    int matchpercentage;
-}
-
-// controls the data injection
-public class usercontroller {
-  @Autowired
-  private UserRepo userRepo;
-  User newUser(@RequestBody User newUser){
-      return userRepo.save(newUser); 
-  } 
-}
-
-// runs the Spring app
-public class Application{
-  public static void main(String[] args) {
-      SpringApplication.run(DemoApplication.class, args);
-  }
-}
-```
-
 ## End Goal
+
 Create And Deploy This Project As A Web App, Giving user free accsess to the website along with unlimited api calls for there results (or until i run out of money)
 
 ### DEVELOPMENT IS COMPLETE 
 **Current Version**
 - Home page when first loading in:
 <img src="./assets/firstin.png" alt="Home" width="600" height="auto" />
+
+
 - After submitting the form:
 <img src="./assets/afterpromt.png" alt="Home" width="600" height="auto" />
 - Backend Servers (running locally)
-- Top left: node terminal for next.js, Top middle: python flask terminal for backend output, Top right: next.console for debugging, middle: flask website for displaying the returned resosponse from api backend, bottom: SpringBoot terminal for backend user data management (connected to SQL)
+Top left: node terminal for next.js, Top middle: python flask terminal for backend output, Top right: next.console for debugging, middle: flask website for displaying the returned resosponse from api backend, bottom: SpringBoot terminal for backend user data management (connected to SQL)
 <img src="./assets/server.png" alt="Home" width="600" height="auto" />
 - SQL database for user data
 <img src="./assets/sql.png" alt="Home" width="600" height="auto" />

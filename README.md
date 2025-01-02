@@ -163,13 +163,13 @@ public class Application{
 ---
 
 ### Overview
-The Google Maps API limits the number of places returned to **60 per set of coordinates**, split into **20 places per page**. To overcome this, a **radial offset engine** was created to fetch additional places by searching at nearby offsets in **North (N)**, **South (S)**, **East (E)**, and **West (W)** directions.
+The Google Maps API's **nearby search** search's locations near the user, split into **20 places per page**. At each page we move outwards fetching more and more places near the user. But it would take a long time to reach the places at the ned of the users radius, this is because we would need to go though many pages to get there and takes too much time. So i found a way to overcome this limitation using my **radial offset engine** this was created to fetch places all over the users radius by searching at nearby offsets in **North (N)**, **South (S)**, **East (E)**, and **West (W)** directions. So it basically searches **n** pages at the users location before moving **N, S, E ,W** to then search **n** more places at that point, where **n** can be any number of pages you want to search at each point remembering that each page has **20 Places**. This Engine ensures that we get equal places from all over the users radius.
 
-This engine performs \(60 $\times$ n\) searches, where **n** is the number of offset locations. In our case, **n = 4** (N, S, E, W). Each additional search takes time, so the number of offsets should be chosen wisely. 
+This engine performs $(\text{X} \cdot \text{N})$ searches, where **N** is the number of offset locations. In our case, **N = 4** (N, S, E, W). And X is the number of places that we fetched at any single location, further more  $\text{X} = \text{20} \cdot \text{n}$ where n is the number of pages we search at any location, as at each location we have 20 places per page. Each additional search takes time, so the number of offsets and pages should be chosen wisely. 
 
 After gathering all places:
-1. Recursively fetch **next pages** for each location until there are no pages left.
-2. Remove duplicate places before returning the final list.
+1. Recursively fetch **next pages** for each location until we reach our limit.
+2. Remove duplicate places before returning the final list in the case that 2 offsets have a converging radius.
 
 ---
 
@@ -196,7 +196,7 @@ After gathering all places:
      - At the poles \( $\text{lat} = \pm90^\circ$ \), \( $\text{lngScale} = 0$ \), so \( $\text{lngOffset} = 0$ \).
 
 ### 3. **Recursive Fetching:**
-   - For each location, fetch places for all pages (20 places per page) until no more pages are left.
+   - For each location, fetch places for all pages (20 places per page) until the page limit is reached.
 
 ---
 
@@ -256,14 +256,14 @@ New Coordinates:
 ---
 
 ### Advantages
-- Overcomes the **60-places limit** of the Google Maps API.
-- Dynamically adjusts longitude offsets based on latitude, ensuring consistent distances.
+- Allows equal Places From all over the users radius insted of just there location without the need of long wait times.
+- Can be used to find a rich set of diversly located places insted of just the ones that are close to the users location.
 
 ---
 ### (Pseudo Code Example)
 ``` javascript
 // ofset calculator
-const baseOffset = radius / 111; // dirived formula see places.fetch for dirivation
+const baseOffset = radius / 111.32; // dirived formula see places.fetch for dirivation
 // main function to calculate ofset
 function calculateOffset(userLat, baseOffset) {
   const latInRadians = (userLat * Math.PI) / 180;
@@ -279,13 +279,20 @@ const latoffset = newoffset.latOffset;
 const lngoffset = newoffset.lngOffset;
 
 // resursive call for location getting all the pages
-async function fetchAllPlaces(page, userinfo, allPlaces = []) {
+limit = 5;
+async function fetchAllPlaces(page, userinfo, allPlaces = [], pagecount=0) {
   data = getplacedata()
   allPlaces = allPlaces.concat(data)
 
+  pagecount++
+
+  if (pagecount == limit){
+    return allPlaces;
+  }
+
   if (data.nextpage){
     page = data.nextpage
-    return fetchAllPlaces(page, allPlaces); // serch the same place again but next page
+    return fetchAllPlaces(page, userinfo, allPlaces, pagecount); // serch the same place again but next page
   }
 
   return allPlaces;

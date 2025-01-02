@@ -35,6 +35,16 @@ def process_places():
             print(f"Activity: {activity}")
             print(f"Places Received, Places length: {len(places)}")
             
+            # remove first element and format the places into a dictionary to remove unnecessary data keeping only the name of the place
+            
+            places.pop(0)
+            counter = 0
+            formatted_places = {}
+
+            for place in places:
+                name = place['name']
+                formatted_places[counter] = name
+                counter += 1
             
             # Process the places using gpt
             # ...
@@ -70,7 +80,7 @@ def process_places():
             """
             # fill in prompt
             prompt = ChatPromptTemplate.from_template(prompt_template) # creating the prompt using the chat prompt template library
-            final_prompt = prompt.format(mood = mood, hobby = hobby, activity = activity, places = places, places_len = len(places)) # passing in the context and question to the prompt
+            final_prompt = prompt.format(mood = mood, hobby = hobby, activity = activity, places = formatted_places, places_len = len(formatted_places)) # passing in the context and question to the prompt
             
             result = llm.invoke(final_prompt) # returns alot of info
             result_answer = result.content # get the answer of the promt only i.e the content 
@@ -87,7 +97,7 @@ def process_places():
                 final_place_number = 0 # set to 0 if no match 0 is the city itself
                 status += " | Could Not Calculate Place Number: It was not a number"
                 error = True
-            elif int(final_place_number) > len(places):
+            elif int(final_place_number) > len(formatted_places):
                 final_place_number = 0 # set to 0 if no match 0 is the city itself
                 status += " | Could Not Calculate Place Number: It was not in range"
                 error = True

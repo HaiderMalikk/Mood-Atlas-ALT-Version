@@ -61,7 +61,7 @@ MOOD-ATLAS/
 │   └── server.py                 # the main flask server file where we get the data from the app files and then the llm is prompted to return a result back to the user
 ├── spring-backend/               # contains the spring boot backend code for the user data
 │   ├── src/                      # root directory of the spring boot project
-│   │   ├── main/                 # contains the main application class contains the User class that defines the data so be posted, controllers for api requests, user repo, actual runnable class for the springboot init, application props and more
+│   │   └── main/                 # contains the main application class contains the User class that defines the data so be posted, controllers for api requests, user repo, actual runnable class for the springboot init, application props and more
 │   └── pom.xml                   # pom file containing all the imports for the springboot project                
 ├── utils/                        # contains utility functions used throughout the app like global colors etc
 ├── next.config.mjs               # contains the configuration for the next.js app like trusted domains etc
@@ -165,7 +165,7 @@ public class Application{
 ### Overview
 The Google Maps API's **nearby search** search's locations near the user, split into **20 places per page**. At each page we move outwards fetching more and more places near the user. But it would take a long time to reach the places at the ned of the users radius, this is because we would need to go though many pages to get there and takes too much time. So i found a way to overcome this limitation using my **radial offset engine** this was created to fetch places all over the users radius by searching at nearby offsets in **North (N)**, **South (S)**, **East (E)**, and **West (W)** directions. So it basically searches **n** pages at the users location before moving **N, S, E ,W** to then search **n** more places at that point, where **n** can be any number of pages you want to search at each point remembering that each page has **20 Places**. This Engine ensures that we get equal places from all over the users radius.
 
-This engine performs $(\text{X} \cdot \text{N})$ searches, where **N** is the number of offset locations. In our case, **N = 4** (N, S, E, W). And X is the number of places that we fetched at any single location, further more  $\text{X} = \text{20} \cdot \text{n}$ where n is the number of pages we search at any location, as at each location we have 20 places per page. Each additional search takes time, so the number of offsets and pages should be chosen wisely. 
+This engine performs **$(\text{X} \cdot \text{N})$** searches, where **N** is the number of offset locations. In our case, **N = 4** (N, S, E, W). And **X** is the number of places that we fetched at any single location, further more  **$\text{X} = \text{20} \cdot \text{n}$** where **n** is the number of pages we search at any location, as at each location we have **20 places per page**. Each additional search takes time, so the number of offsets and pages should be chosen wisely. 
 
 After gathering all places:
 1. Recursively fetch **next pages** for each location until we reach our limit.
@@ -244,7 +244,7 @@ New Coordinates:
    - $\text{lngOffset} = \text{latOffset} \cdot \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)$
 
 3. **Recursive Searches:** Perform up to **n** searches in the N, S, E, W directions. For each search:
-   - Fetch all 20 places per page until no pages are left.
+   - Fetch all 20 places per page until we reach our desired page limit.
    - Remove duplicates.
 
 4. **Final Output:** Return the unique list of places.

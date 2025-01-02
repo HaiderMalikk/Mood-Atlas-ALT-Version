@@ -4,7 +4,6 @@ import { Map } from "./map";
 import { LocationCard } from "./location_card";
 import { processInputs } from "./places_processing";
 import { fetchUserCoordinates } from "./user_location"
-import {PostUser} from "./post_user"
 import "./globals.css";
 
 const WelcomePage = () => {
@@ -32,7 +31,6 @@ const WelcomePage = () => {
   }, []);
 
   // State for user coordinates (user location)
-
   // State for displaying processed data, currently a placeholder
   const [processedData, setProcessedData] = useState({
     title: "Start by Filling the inputs and then click submit",
@@ -83,29 +81,6 @@ const WelcomePage = () => {
     } else {
       console.log("No coordinates found in result");
     }
-
-    // loging user info to spring boot backend (error handling done before this info is made so no need to do it again )
-    const userInfo = {
-      mood: mood,
-      activity: activity,
-      hobby: hobby,
-      userCoordinates: userCoordinates,
-      radius: radius,
-      placename: result.name,
-      placelocation: result.address,
-      matchscore: result.matchpercentage
-    }
-    console.log("Sending user info to backend, user info: ", userInfo);
-    // call function to post user info
-    PostUser(userInfo)
-    .then((response) => {
-      console.log("User info successfully posted:", response);
-      // Handle success (e.g., show confirmation or update UI)
-    })
-    .catch((error) => {
-      console.error("Error posting user info:", error);
-      // Handle error (e.g., show error message)
-    });
 
   
     setLoading(false); // Set loading to false after processing data is complete
@@ -218,7 +193,17 @@ const WelcomePage = () => {
       </div>
       {/* Right Side */}
       <div className="right">
-        <Map userCoordinates={userCoordinates} />
+      {!userCoordinates ? (
+        <div className="map-container">
+           <div className="loading-container-map">
+              <div className="loading-spinner"></div> {/* Spinner */}
+              <span style={{ marginLeft: "10px" }}>Loading Map...</span> {/* Text next to the spinner */}
+            </div>
+        </div>
+        ) : (
+          {/* only loading the map when the user coordinates are available */},
+          <Map userCoordinates={userCoordinates} /> 
+        )}
         <LocationCard
           title={processedData.title}
           description={processedData.address}

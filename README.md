@@ -153,6 +153,8 @@ public class Application{
 
 *Radial Offset Engine for Google Maps Places API*
 
+*Latitude vs Longitude:*
+
 <img src="./assets/radial.png" alt="Home" width="600" height="auto" />
 
 ---
@@ -172,32 +174,22 @@ After gathering all places:
 
 ### 1. **Latitude Offset (Base Offset):**
    - Latitude changes by a constant distance everywhere on Earth.
-   - this offset is in degrees: $1^\circ$ $\ \approx 111.32 km$
+   - this offset is in degrees: $1^\circ\approx 111.32 km$
    - Formula for offset:
-     $$
-     \text{latOffset} = \frac{\text{radius}}{111.32}
-     $$
+      - $\text{latOffset} = \frac{\text{radius}}{111.32}$
    - **Example:** For a radius of **25 km**:
-     $$
-     \text{latOffset} = \frac{25}{111.32} \approx 0.224^\circ
-     $$
+     - $\text{latOffset} = \frac{25}{111.32} \approx 0.224^\circ$
    - Add this offset to the user’s latitude to move **North** or subtract it to move **South**.
 
 ### 2. **Longitude Offset:**
    - Longitude offsets depend on the latitude because the Earth's radius decreases as you move toward the poles.
    - Formula for longitude scaling:
-     $$
-     \text{lngScale} = \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)
-     $$
+     - $\text{lngScale} = \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)$
    - Adjusted longitude offset:
-     $$
-     \text{lngOffset} = \text{latOffset} \cdot \text{lngScale}
-     $$
+     - $\text{lngOffset} = \text{latOffset} \cdot \text{lngScale}$
    - **Example:** 
      - At the equator \( $\text{lat} = 0^\circ$ \), \( $\text{lngScale} = 1$ \), so:
-       $$
-       \text{lngOffset} = \text{latOffset}
-       $$
+       - $\text{lngOffset} = \text{latOffset}$
      - At the poles \( $\text{lat} = \pm90^\circ$ \), \( $\text{lngScale} = 0$ \), so \( $\text{lngOffset} = 0$ \).
 
 ### 3. **Recursive Fetching:**
@@ -222,7 +214,6 @@ $\text{latOffset} = \frac{\text{radius}}{111.32} = \frac{25}{111.32} \approx 0.2
 
 ### Step 2: Calculate Longitude Offset  
 $\text{lngScale} = \cos\left(\frac{43.6532 \times \pi}{180}\right) \approx 0.722$
-
 $\text{lngOffset} = 0.2246 \times 0.722 \approx 0.1622^\circ$
 
 ### Step 3: North Move (Increase Latitude)  
@@ -230,28 +221,24 @@ New Coordinates:
 - Lat: \( 43.6532 + 0.2246 = 43.8778 \)  
 - Lng: -79.3832  
 
-**North Move:** \( (43.8778, -79.3832) \)
+**North Move:** \( 43.8778, -79.3832 \)
 
 ### Step 4: East Move (Increase Longitude)  
 New Coordinates:  
 - Lat: 43.6532  
 - Lng: \( -79.3832 + 0.1622 = -79.2210 \)
 
-**East Move:** \( (43.6532, -79.2210) \)
+**East Move:** \( 43.6532, -79.2210 \)
 
 ### And So On for The Other Directions...
 ---
 
 ### Implementation Summary
 1. **Base Offset:** Calculate the latitude offset using the radius:
-   $$
-   \text{latOffset} = \frac{\text{radius}}{111.32}
-   $$
+   - $\text{latOffset} = \frac{\text{radius}}{111.32}$
 
 2. **Longitude Adjustment:** Calculate the longitude offset by scaling the latitude offset:
-   $$
-   \text{lngOffset} = \text{latOffset} \cdot \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)
-   $$
+   - $\text{lngOffset} = \text{latOffset} \cdot \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)$
 
 3. **Recursive Searches:** Perform up to **n** searches in the N, S, E, W directions. For each search:
    - Fetch all 20 places per page until no pages are left.
@@ -334,10 +321,13 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 
 - After submitting the form:
 <img src="./assets/afterpromt.png" alt="Home" width="600" height="auto" />
+
 - Backend Servers (running locally)
 Top left: node terminal for next.js, Top middle: python flask terminal for backend output, Top right: next.console for debugging, middle: flask website for displaying the returned resosponse from api backend, bottom: SpringBoot terminal for backend user data management (connected to SQL)
 <img src="./assets/server.png" alt="Home" width="600" height="auto" />
+
 - SQL database for user data
 <img src="./assets/sql.png" alt="Home" width="600" height="auto" />
+
 - Postman for API testing 
 <img src="./assets/post.png" alt="Home" width="600" height="auto" />

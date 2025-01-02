@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
-  const {apiKey, location, radius } = req.query; // Get parameters from the client-side request
+  const {location, radius, key } = req.query; // Get parameters from the client-side request
   console.log("recived places fetch request from app, query: ", req.query);
 
   try {
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     const params = {
       location: location,
       radius: radius, // Convert to meters
-      key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+      key: key,
     };
 
     // Fetch data from Google Maps API

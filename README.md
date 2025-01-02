@@ -275,9 +275,8 @@ function calculateOffset(userLat, baseOffset) {
   };
 }
 const newoffset = calculateOffset(lat, baseOffset);
-const range_filler_constant_lng = 0.15; // derived constant to account for errors in the function
 const latoffset = newoffset.latOffset; 
-const lngoffset = newoffset.lngOffset + range_filler_constant_lng;
+const lngoffset = newoffset.lngOffset;
 
 // resursive call for location getting all the pages
 async function fetchAllPlaces(page, userinfo, allPlaces = []) {

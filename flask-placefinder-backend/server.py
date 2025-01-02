@@ -46,7 +46,7 @@ def process_places():
             prompt_template = """
             You are a place selector your job is to find a place for the attributes of the user which are as follows:
             Users Mood: {mood}, Users Hobbies: {hobby}, Users Activities: {activity}
-            IF ANY OF THE ATTRIBUTES ARE N/A THAT MEANS THE USER DID NOT PROVIDE IT, ASUME IT'S THE SAME IF ITS BLANK
+            IF ANY OF THE ATTRIBUTES ARE N/A THAT MEANS THE USER DID NOT PROVIDE IT, ASSUME IT'S THE SAME IF ITS BLANK
             IF YOU ARE NOT GIVEN ONE OR MORE OF THE ABOVE ATTRIBUTES RETURN YOU BEST GUESS EVEN IF YOU ARE GIVEN NO ATTRIBUTES
 
             You are also given a key value pair as follows: Key = place number and Value = place name. 
@@ -54,7 +54,7 @@ def process_places():
             you do this by looking at the name of the place which is the value.
             When you find the right place return its key your answer must be a single integer in the range of keys given in the problem.
             then you must return a match score from 0-100 which is the score of how well the place matches the user.
-            this score must be seperated by a commas 
+            this score must be separated by a commas 
             the final answer will be in the following format: key, match_score
             
             YOU MUST RETURN A VALID INTEGER AND NOTHING ELSE, EVEN IF THE USER HAS NO MATCHING PLACE RETURN YOU BEST GUESS. ALSO RETURN A MATCH PERCENTAGE EVEN IF ITS 0
@@ -68,7 +68,7 @@ def process_places():
             Here is the list of places:
             {places}
             """
-            # fill in promt
+            # fill in prompt
             prompt = ChatPromptTemplate.from_template(prompt_template) # creating the prompt using the chat prompt template library
             final_prompt = prompt.format(mood = mood, hobby = hobby, activity = activity, places = places, places_len = len(places)) # passing in the context and question to the prompt
             

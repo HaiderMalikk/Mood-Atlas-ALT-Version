@@ -2,8 +2,11 @@
 
 *"Chart your feelings, discover your destination"*
 
-#
-#
+---
+### The Production Build For This App Is a Little Different, <a href="https://haidermalikk.github.io/HaiderMaliksWebsite/" style="color: blue;">Check That Out Here</a>.
+
+---
+
 ## Project Summary: **Mood Atlas**
 
 **Mood Atlas** is an innovative app that recommends destinations based on user moods, places, or feelings. The project integrates multiple technologies for seamless functionality. The combination of AI and real-time data creates a personalized experience, guiding users to destinations that match their feelings. This app is expected to be released in the near future. **See the bottom of this file for the latest updates**.
@@ -41,17 +44,17 @@
 MOOD-ATLAS/
 │
 ├── .next/                        # Next.js build and runtime files (this folder is the final build)
-├── app/                          # main application code with all the indivisual files
+├── app/                          # main application code with all the individual files
 │   ├── global.css                # contains all the css styles used throughout the app
-│   ├── flask_llm_call.js         # this is where the flask backend is called and also where the data sent back is recived from flask, this is called and returns its result tot processor 
+│   ├── flask_llm_call.js         # this is where the flask backend is called and also where the data sent back is received from flask, this is called and returns its result tot processor 
 │   ├── layout.js                 # defines the layout of the app i.e the header main page etc
 │   ├── location_card.js          # contains the logic for displaying location cards with images etc on the map
 │   ├── map.js                    # contains the main google map component 
-│   ├── page.js                   # the main page of the app with all the formating and order of components i.e where the map, location etc are and there logic along with the user inputs 
+│   ├── page.js                   # the main page of the app with all the formatting and order of components i.e where the map, location etc are and there logic along with the user inputs 
 │   ├── places_fetch              # contains the logic for fetching places from google places api to give to the processor for it to forward it to flask
-│   ├── places_processing.js      # this is where all the inputs are recived and where we get the places send it to flask get its response and resturn the result to the page
+│   ├── places_processing.js      # this is where all the inputs are received and where we get the places send it to flask get its response and returns the result to the page
 │   ├── post_users.js             # contains the logic for posting user data to the spring boot backend
-│   └── user_location.js          # This is where we get the user's initilal location from ipapi api.
+│   └── user_location.js          # This is where we get the user's initial location from ipapi api.
 ├── assets/                       # contains all the static assets like images etc
 ├── flask-placefinder-backend/    # contains the python backend code for processing user input and generating recommendations
 │   ├── jupyter_tests/            # contains the jupyter notebooks for testing the python backend along with some test data
@@ -59,7 +62,7 @@ MOOD-ATLAS/
 ├── spring-backend/               # contains the spring boot backend code for the user data
 │   ├── src/                      # root directory of the spring boot project
 │   │   ├── main/                 # contains the main application class contains the User class that defines the data so be posted, controllers for api requests, user repo, actual runnable class for the springboot init, application props and more
-│   └── pom.xml                   # pom file contaning all the imports for the springboot project                
+│   └── pom.xml                   # pom file containing all the imports for the springboot project                
 ├── utils/                        # contains utility functions used throughout the app like global colors etc
 ├── next.config.mjs               # contains the configuration for the next.js app like trusted domains etc
 └── tailwind.config.mjs           # contains the configuration for tailwind css
@@ -67,11 +70,11 @@ MOOD-ATLAS/
 
 ## How the Website Works
 
-- the user inputs the required stuff and then clicks submit, initally there location is shown on the map.
-- this submitted data is propigated to the places fetch here we first fetch the nearby places by using google maps api and then we use this location data along with the user inputs to the flask backend. We proccess the data and generate recommendations for the user and return it.
+- the user inputs the required stuff and then clicks submit, initially there location is shown on the map.
+- this submitted data is propagated to the places fetch here we first fetch the nearby places by using google maps api and then we use this location data along with the user inputs to the flask backend. We process the data and generate recommendations for the user and return it.
 - this recommendations places object contain info about the places that can be parsed and extracted for things like location, address etc.
-- once all this is done we first send this user promt data to the springboot backend to be stored in a sql database. Then we display the location to the user with the map and location card.
-- below are some ex snippets of code detailing important parts of the proccess (NOT COMPLETE CODE JUST PARTS OF IT WITH PSUDOCODE)
+- once all this is done we first send this user prompt data to the springboot backend to be stored in a sql database. Then we display the location to the user with the map and location card.
+- below are some ex snippets of code detailing important parts of the process (NOT COMPLETE CODE JUST PARTS OF IT WITH PSEUDOCODE)
 
 **Ex Data, Google Places API's nearby search returns us a json file that looks something like this, this data is needed for the website to work**
 
@@ -98,16 +101,16 @@ MOOD-ATLAS/
 }
 ```
 
-**EX LLM promt, here is an example of what the prompt might look like to ask the llm to pick a place**
+**EX LLM prompt, here is an example of what the prompt might look like to ask the llm to pick a place**
 ```python
 # init backend
 app = Flask(__name__)
 @app.route('/api/home', methods=['POST', 'GET'])
 # invoke llm
 llm = chatopenai(model, key, etc)
-my_promt = " FOLLOW THESE INSTRUCTION WITH DATA {places},{mood},{etc}  " # fill in with actual data from fontend
-response = llm.promt(my_promt)
-place_key = reponse[0]
+my_prompt = " FOLLOW THESE INSTRUCTION WITH DATA {places},{mood},{etc}  " # fill in with actual data from fontend
+response = llm.prompt(my_prompt)
+place_key = response[0]
 response_data = {
   'place number from llm': place_key, 
 }
@@ -184,7 +187,7 @@ After gathering all places:
 ### 2. **Longitude Offset:**
    - Longitude offsets depend on the latitude because the Earth's radius decreases as you move toward the poles.
    - Formula for longitude scaling:
-     - $\text{lngScale} = \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)$
+     - $\text{lngScale} = \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)$, Where the $\text{lat}$ is multiplied by $\left(\frac{\pi}{180}\right)$ to convert it to radiants
    - Adjusted longitude offset:
      - $\text{lngOffset} = \text{latOffset} \cdot \text{lngScale}$
    - **Example:** 
@@ -210,11 +213,11 @@ After gathering all places:
 - **Radius:** 25 km
 
 ### Step 1: Calculate Latitude Offset  
-$\text{latOffset} = \frac{\text{radius}}{111.32} = \frac{25}{111.32} \approx 0.2246^\circ$
+- $\text{latOffset} = \frac{\text{radius}}{111.32} = \frac{25}{111.32} \approx 0.2246^\circ$
 
 ### Step 2: Calculate Longitude Offset  
-$\text{lngScale} = \cos\left(\frac{43.6532 \times \pi}{180}\right) \approx 0.722$
-$\text{lngOffset} = 0.2246 \times 0.722 \approx 0.1622^\circ$
+- $\text{lngScale} = \cos\left(\frac{43.6532 \times \pi}{180}\right) \approx 0.722$
+- $\text{lngOffset} = 0.2246 \times 0.722 \approx 0.1622^\circ$
 
 ### Step 3: North Move (Increase Latitude)  
 New Coordinates:  
@@ -257,7 +260,7 @@ New Coordinates:
 - Dynamically adjusts longitude offsets based on latitude, ensuring consistent distances.
 
 ---
-### (Psudo Code Example)
+### (Pseudo Code Example)
 ``` javascript
 // ofset calculator
 const baseOffset = radius / 111; // dirived formula see places.fetch for dirivation
@@ -311,7 +314,7 @@ function main(lat, lng, direction, etc){
 
 ## End Goal
 
-Create And Deploy This Project As A Web App, Giving user free accsess to the website along with unlimited api calls for there results (or until i run out of money)
+Create And Deploy This Project As A Web App, Giving user free access to the website along with unlimited api calls for there results (or until i run out of money)
 
 ### DEVELOPMENT IS COMPLETE 
 **Current Version**
@@ -323,7 +326,7 @@ Create And Deploy This Project As A Web App, Giving user free accsess to the web
 <img src="./assets/afterpromt.png" alt="Home" width="600" height="auto" />
 
 - Backend Servers (running locally)
-Top left: node terminal for next.js, Top middle: python flask terminal for backend output, Top right: next.console for debugging, middle: flask website for displaying the returned resosponse from api backend, bottom: SpringBoot terminal for backend user data management (connected to SQL)
+Top left: node terminal for next.js, Top middle: python flask terminal for backend output, Top right: next.console for debugging, middle: flask website for displaying the returned response from api backend, bottom: SpringBoot terminal for backend user data management (connected to SQL)
 <img src="./assets/server.png" alt="Home" width="600" height="auto" />
 
 - SQL database for user data

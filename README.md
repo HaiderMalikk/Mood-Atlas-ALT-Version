@@ -185,7 +185,7 @@ After gathering all places:
    - Add this offset to the user’s latitude to move **North** or subtract it to move **South**.
 
 ### 2. **Longitude Offset:**
-   - Longitude offsets depend on the latitude because the Earth's radius decreases as you move toward the poles. So an offset of $1^\circ$ to the lng, closer to the poles would amount to a smaller distance than at the equator.
+   - Longitude offsets depend on the latitude because the Earth's radius decreases as you move toward the poles. This means we would need a smaller lng offset than our lat offset when closer to the poles, beacuse the earth shrinks as you move towards the poles, a small offset in lng is enough to cover alot of distance there.
    - Formula for longitude scaling:
      - $\text{lngScale} = \cos\left(\frac{\text{lat} \cdot \pi}{180}\right)$, Where the $\text{lat}$ is multiplied by $\left(\frac{\pi}{180}\right)$ to convert it to radiants
    - Adjusted longitude offset:

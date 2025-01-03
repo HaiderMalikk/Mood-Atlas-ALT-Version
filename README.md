@@ -274,36 +274,40 @@ function calculateOffset(userLat, baseOffset) {
     lngOffset: dynamicLongitudeOffset, // new Longitude offset 
   };
 }
+// get new ofsets
 const newoffset = calculateOffset(lat, baseOffset);
 const latoffset = newoffset.latOffset; 
 const lngoffset = newoffset.lngOffset;
 
 // resursive call for location getting all the pages
-limit = 5;
+limit = 5; // page limit
 async function fetchAllPlaces(page, userinfo, allPlaces = [], pagecount=0) {
-  data = getplacedata()
-  allPlaces = allPlaces.concat(data)
+  data = getplacedata() // call to get data from api
+  allPlaces = allPlaces.concat(data) // add data from current serach to total places
 
-  pagecount++
+  pagecount++ // next page
 
+  // check if page limit is reached
   if (pagecount == limit){
     return allPlaces;
   }
 
+  // if !limit and next page exits we have more places so search recusively again
   if (data.nextpage){
-    page = data.nextpage
+    page = data.nextpage // get nextpage
     return fetchAllPlaces(page, userinfo, allPlaces, pagecount); // serch the same place again but next page
   }
 
-  return allPlaces;
+  return allPlaces; // return all places once no more pages exist while we have not reached limit
 }
 
 // function to serch places
 async function searchWithOffset(lat, lng, direction) {
+  // calculate adjusted cordinates based on direction 
     const adjustedLat = direction === 'N' ? lat + latoffset : direction === 'S' ? lat - latoffset : lat; 
     const adjustedLng = direction === 'E' ? lng + lngoffset : direction === 'W' ? lng - lngoffset : lng;
 
-  // get all places at new cordinates
+  // initiate recursive call to fetch all places with user info and the first page which is the first call to the api
   return fetchAllPlaces(
     page, userinfo
   );

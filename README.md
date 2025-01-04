@@ -76,6 +76,8 @@ MOOD-ATLAS/
 - once all this is done we first send this user prompt data to the springboot backend to be stored in a sql database. Then we display the location to the user with the map and location card.
 - below are some ex snippets of code detailing important parts of the process (NOT COMPLETE CODE JUST PARTS OF IT WITH PSEUDOCODE)
 
+---
+
 **Ex Data, Google Places API's nearby search returns us a json file that looks something like this, this data is needed for the website to work**
 
 ```json
@@ -101,6 +103,8 @@ MOOD-ATLAS/
 }
 ```
 
+---
+
 **EX LLM prompt, here is an example of what the prompt might look like to ask the llm to pick a place**
 ```python
 # init backend
@@ -116,6 +120,8 @@ response_data = {
 }
 return response_data
 ```
+
+---
 
 **EX Spring boot class for the defined user data**
 

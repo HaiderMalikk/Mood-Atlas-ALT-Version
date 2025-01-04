@@ -57,7 +57,7 @@ MOOD-ATLAS/
 │   └── user_location.js          # This is where we get the user's initial location from  the api request in pages.
 ├── pages/api                     # main application api endpoints (basically the server files that make api requests for us so we dont have too do it in the frondend, avoids CORS issues)
 │   ├── fetchPlaces.js            # contains the api endpoint for fetching places from google places api
-│   └── user_location.js          # contains the api endpoint for getting the user's initial location from ipapi 
+│   └── fetchUserCoordinates.js   # contains the api endpoint for getting the user's initial location from ipapi 
 ├── flask-placefinder-backend/    # contains the python backend code for processing user input and generating recommendations
 │   ├── jupyter_tests/            # contains the jupyter notebooks for testing the python backend along with some test data
 │   └── server.py                 # the main flask server file where we get the data from the app files and then the llm is prompted to return a result back to the user

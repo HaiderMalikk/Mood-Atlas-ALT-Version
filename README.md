@@ -309,7 +309,7 @@ function fetchPlaces(userCoordinates, radius){
   // resursive call for location getting all the pages
   limit = 5;
   async function fetchAllPlaces(page, userinfo, allPlaces = [], pagecount=0) {
-    data = getplacedata()
+    data = getplacedata() // api endpoint that gets all places from google maps api
     allPlaces = allPlaces.concat(data)
 
     pagecount++

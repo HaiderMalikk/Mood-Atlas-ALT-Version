@@ -96,6 +96,11 @@ MOOD-ATLAS/
     "lat" : 43.64192569999999,
     "lng" : -79.3894923
   },
+  "types" : [ "hotel", "establishment" ],
+  "opening_hours":
+  {
+    "open_now" : true,
+  }
   "photos" : 
   [
     {

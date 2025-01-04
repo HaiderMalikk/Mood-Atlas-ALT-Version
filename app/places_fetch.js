@@ -15,7 +15,7 @@ PLZ READ ABOUT THIS IN THE READ ME FILE SECTION: RADIAL OFSET ENGINE
 THE CONST IS JUST IN PLACE FOR ERROR FIXING THE MATH IS NOT WRONG 
 
 */
- const baseOffset = radius / 111;
+ const baseOffset = (radius / 2) / 111.32; // devide by 2 see readme for why
  console.log(`Base offset for radius: ${radius} is: ${baseOffset}`);
  
  function calculateOffset(userLat, baseOffset) {
@@ -38,21 +38,21 @@ THE CONST IS JUST IN PLACE FOR ERROR FIXING THE MATH IS NOT WRONG
   
   const newoffset = calculateOffset(lat, baseOffset);
   // creating vars for lan and lng offsets
-  const range_filler_constant_lng = 0.15; // adding a constant to the lng offset to make it complete
-  const latoffset = newoffset.latOffset; // lat is of with no ofset its ofset will corisponf to radius with no addition of constant
-  const lngoffset = newoffset.lngOffset + range_filler_constant_lng;
+  const latoffset = newoffset.latOffset; // lat is of with no ofset its ofset will corispond to radius with no addition of constant
+  const lngoffset = newoffset.lngOffset;
 
   console.log(`Serching with new offsets: Lat offset: ${latoffset} Lng offset: ${lngoffset}`);
   
-  // Recursive function to fetch all pages until pagelimit is reached
+  // Recursive function to fetch all pages
   async function fetchAllPlaces(url, params, allPlaces = [], pageCount = 0) {
-    const pageLimit = 1; // small for testing
+    const pageLimit = 1;
     try {
       // Fetch the current page of results
       const response = await axios.get(url, { params, headers: { 'X-Requested-With': 'XMLHttpRequest' } });
-      const data = response.data;
-      console.log(response, response.data);
+      const data = response.data; // data contains places, nextpage token etc
+      console.log("Response From Google Places API: ",response);
 
+      // results is the places parts
       if (data.results && data.results.length > 0) {
         console.log(`Fetched ${data.results.length} places`);
       } else {
@@ -115,7 +115,7 @@ THE CONST IS JUST IN PLACE FOR ERROR FIXING THE MATH IS NOT WRONG
     // Initial request parameters
     const params = {
       location: `${adjustedLat},${adjustedLng}`,
-      radius: radius * 1000, // Convert to meters
+      radius: (radius * 1000) / 2, // Convert to meters and divide by 2 for half the radius see read me for more info
       key: apiKey,
     };
 

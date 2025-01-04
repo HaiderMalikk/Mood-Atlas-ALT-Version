@@ -27,6 +27,7 @@ def process_places():
             mood = data.get('mood', 'No mood provided')
             hobby = data.get('hobby', 'No hobby provided')
             activity = data.get('activity', 'No activity provided')
+            gonow = data.get('gonow', False)
             load_dotenv() # load environment variables
 
             print("POST request received with the following data:")
@@ -34,17 +35,28 @@ def process_places():
             print(f"Hobby: {hobby}")
             print(f"Activity: {activity}")
             print(f"Places Received, Places length: {len(places)}")
+            print(f"gonow: {gonow}")
             
             # remove first element and format the places into a dictionary to remove unnecessary data keeping only the name of the place
             
-            places.pop(0)
             counter = 0
             formatted_places = {}
 
             for place in places:
+                # Check if the place is open when gonow is True
+                if gonow and not place.get('opening_hours', {}).get('open_now', False):
+                    continue  # Skip this place if it's closed
+
                 name = place['name']
-                formatted_places[counter] = name
+                types = ", ".join(place.get('types', []))  # Convert list to comma-separated string
+
+                formatted_places[counter] = {
+                    "name": name,
+                    "type": types
+                }
                 counter += 1
+
+            print("Formatted Places:", formatted_places)
             
             # Process the places using gpt
             # ...
@@ -54,28 +66,33 @@ def process_places():
             llm = ChatOpenAI(model="gpt-4o-mini", api_key=OPENAPI_API_KEY, temperature=0.8)
             # create prompt
             prompt_template = """
-            You are a place selector your job is to find a place for the attributes of the user which are as follows:
-            Users Mood: {mood}, Users Hobbies: {hobby}, Users Activities: {activity}
-            IF ANY OF THE ATTRIBUTES ARE N/A THAT MEANS THE USER DID NOT PROVIDE IT, ASSUME IT'S THE SAME IF ITS BLANK
-            IF YOU ARE NOT GIVEN ONE OR MORE OF THE ABOVE ATTRIBUTES RETURN YOU BEST GUESS EVEN IF YOU ARE GIVEN NO ATTRIBUTES
+            You are a place recommender designed to suggest the best place based on a user's preferences. Your task is to find the ideal place for a user based on the following attributes:
 
-            You are also given a key value pair as follows: Key = place number and Value = place name. 
-            Your job is too find the best place for the user based on the given attributes.
-            you do this by looking at the name of the place which is the value.
-            When you find the right place return its key your answer must be a single integer in the range of keys given in the problem.
-            then you must return a match score from 0-100 which is the score of how well the place matches the user.
-            this score must be separated by a commas 
-            the final answer will be in the following format: key, match_score
-            
-            YOU MUST RETURN A VALID INTEGER AND NOTHING ELSE, EVEN IF THE USER HAS NO MATCHING PLACE RETURN YOU BEST GUESS. ALSO RETURN A MATCH PERCENTAGE EVEN IF ITS 0
-            JUST FOR YOU REFERENCE THE MAX NUMBER YOU CAN GOTO IS THE MAX NUMBER OF OBJECTS IN THE LIST OF PLACES WHICH IS: {places_len}
-            
-            NOTE: avoid places like: Hotels
-            PLACES LIKE HOTELS HAVE WORDS IN THERE NAME LIKE: HOTEL, MOTEL, INN, RESORT, RESIDENCE, RESIDENCY, SUITE.
-            ALSO LOOK OUT FOR POPULAR HOTEL CHAINS LIKE: HILTON, MARRIOTT, HYATT, SHERATON, WESTIN, RITZ, FOUR SEASONS, FAIRMONT, INTERCONTINENTAL.
-            THERE MIGHT BE OTHER KEYWORDS OR CHAINS TO LOOK OUT FOR SO BE CAREFUL.
-            
-            Here is the list of places:
+            - User's Mood: {mood}
+            - User's Hobbies: {hobby}
+            - User's Activities: {activity}
+
+            If any of these attributes are missing or not provided, assume they are blank or N/A and make your best guess. If the user provides no attributes, rely on your own judgment to suggest a place.
+
+            You are given a dictionary where the key is the place number and the value contains information about each place in the following format:
+
+            - `name`: The name of the place (e.g., 'Central Park')
+            - `type`: A comma-separated list of types (e.g., 'park, outdoor, nature')
+
+            Your goal is to suggest the best place based on the user's attributes. To do this, you should analyze the place's name and types. The types provide information about what kind of place it is (e.g., park, restaurant, museum). Match these attributes with the user's provided mood, hobbies, and activities to find the most suitable place.
+
+            After identifying the best place, return the following:
+            1. The place's key (index number).
+            2. A match score, which is a percentage (0-100), indicating how well the place matches the user's preferences.
+
+            Your answer should be in the format:
+            - `key, match_score`
+            YOU MUST RETURN A VALID INTEGER AND NOTHING ELSE, EVEN IF THE USER HAS NO MATCHING PLACE RETURN YOU BEST GUESS. 
+            SAME FOR THE MATCH SCORE.
+
+            For reference, you can only choose a place from the given list. The maximum possible index value is {places_len}.
+
+            Here is the list of places with their details:
             {places}
             """
             # fill in prompt

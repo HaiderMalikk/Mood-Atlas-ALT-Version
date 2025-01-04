@@ -2,7 +2,7 @@
 import { fetchPlaces } from "./places_fetch";
 import { fetchFlaskData } from "./flask_llm_call";
 
-export async function processInputs(mood, hobby, activity, userCoordinates, radius) {
+export async function processInputs(mood, hobby, activity, userCoordinates, radius, gonow) {
   console.log(`Starting place processing for mood: ${mood}, hobby: ${hobby}, activity: ${activity}, coordinates: Lat: ${userCoordinates.lat}, Lng: ${userCoordinates.lng}, radius: ${radius}`);
   try {
     // Fetch places using the helper function
@@ -15,7 +15,7 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
 
       // Fetch data from the Flask API using the helper function
       console.log("Sending places to Flask call file for response");
-      const flaskResult = await fetchFlaskData(places, mood, hobby, activity);
+      const flaskResult = await fetchFlaskData(places, mood, hobby, activity, gonow);
 
       if (flaskResult !== null) {
         console.log("Extracting place number from Flask response");

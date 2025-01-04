@@ -54,7 +54,10 @@ MOOD-ATLAS/
 │   ├── places_fetch              # contains the logic for fetching places from google places api to give to the processor for it to forward it to flask
 │   ├── places_processing.js      # this is where all the inputs are received and where we get the places send it to flask get its response and returns the result to the page
 │   ├── post_users.js             # contains the logic for posting user data to the spring boot backend
-│   └── user_location.js          # This is where we get the user's initial location from ipapi api.
+│   └── user_location.js          # This is where we get the user's initial location from  the api request in pages.
+├── pages/api                     # main application api endpoints (basically the server files that make api requests for us so we dont have too do it in the frondend, avoids CORS issues)
+│   ├── fetchPlaces.js            # contains the api endpoint for fetching places from google places api
+│   └── user_location.js          # contains the api endpoint for getting the user's initial location from ipapi 
 ├── assets/                       # contains all the static assets like images etc
 ├── flask-placefinder-backend/    # contains the python backend code for processing user input and generating recommendations
 │   ├── jupyter_tests/            # contains the jupyter notebooks for testing the python backend along with some test data
@@ -217,7 +220,7 @@ After gathering all places:
    - Adjusted longitude offset:
      - $\text{lngOffset} = \text{latOffset} \cdot \text{lngScale}$
    - **Example:**
-     - At the equator \( \text{lat} = 0^\circ \), \( \text{lngScale} = 1 \), so:
+     - At the equator \( $\text{lat} = 0^\circ$ \), \( $\text{lngScale} = 1$ \), so:
        - $\text{lngOffset} = \text{latOffset}$
      - At 43.6532° (Toronto):
        - $\text{lngScale} = \cos\left(\frac{43.6532 \times \pi}{180}\right) \approx 0.722$

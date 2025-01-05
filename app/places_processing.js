@@ -6,7 +6,7 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
   console.log(`Starting place processing for mood: ${mood}, hobby: ${hobby}, activity: ${activity}, coordinates: Lat: ${userCoordinates.lat}, Lng: ${userCoordinates.lng}, radius: ${radius}`);
   try {
     // Fetch places using the helper function
-    const places = await fetchPlaces(userCoordinates, radius);
+    const places = await fetchPlaces(userCoordinates, radius, gonow);
     console.log("Places received at places processing");
 
     // Check if places were retrieved
@@ -15,7 +15,7 @@ export async function processInputs(mood, hobby, activity, userCoordinates, radi
 
       // Fetch data from the Flask API using the helper function
       console.log("Sending places to Flask call file for response");
-      const flaskResult = await fetchFlaskData(places, mood, hobby, activity, gonow);
+      const flaskResult = await fetchFlaskData(places, mood, hobby, activity);
 
       if (flaskResult !== null) {
         console.log("Extracting place number from Flask response");

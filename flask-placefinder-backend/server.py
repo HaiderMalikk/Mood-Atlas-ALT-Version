@@ -35,7 +35,6 @@ def process_places():
             print(f"Hobby: {hobby}")
             print(f"Activity: {activity}")
             print(f"Places Received, Places length: {len(places)}")
-            print(f"gonow: {gonow}")
             
             # remove first element and format the places into a dictionary to remove unnecessary data keeping only the name of the place
             
@@ -43,10 +42,6 @@ def process_places():
             formatted_places = {}
 
             for place in places:
-                # Check if the place is open when gonow is True
-                if gonow and not place.get('opening_hours', {}).get('open_now', False):
-                    continue  # Skip this place if it's closed
-
                 name = place['name']
                 types = ", ".join(place.get('types', []))  # Convert list to comma-separated string
 
@@ -86,7 +81,7 @@ def process_places():
             2. A match score, which is a percentage (0-100), indicating how well the place matches the user's preferences.
 
             Your answer should be in the format:
-            - `key, match_score`
+            key, match_score
             YOU MUST RETURN A VALID INTEGER AND NOTHING ELSE, EVEN IF THE USER HAS NO MATCHING PLACE RETURN YOU BEST GUESS. 
             SAME FOR THE MATCH SCORE.
 

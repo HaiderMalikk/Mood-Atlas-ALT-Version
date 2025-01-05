@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
 
-export async function fetchPlaces(userCoordinates, radius) {
+export async function fetchPlaces(userCoordinates, radius, gonow) {
   const { lat, lng } = userCoordinates;
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
@@ -90,6 +90,7 @@ THE CONST IS JUST IN PLACE FOR ERROR FIXING THE MATH IS NOT WRONG
 
   // Function to remove duplicates based on place IDs
   function removeDuplicates(places) {
+    console.log("Removing duplicate places");
     const uniquePlaces = [];
     const placeIds = new Set(); // set cannot have duplicates
 
@@ -101,6 +102,16 @@ THE CONST IS JUST IN PLACE FOR ERROR FIXING THE MATH IS NOT WRONG
     }
 
     return uniquePlaces;
+  }
+
+  function removeclosedplaces(places) {
+    if (gonow) {
+      console.log("Removing closed places");
+      // Filter out places that are not open
+      return places.filter(place => place.opening_hours && place.opening_hours.open_now);
+    }
+    // If gonow is false, return the places as is
+    return places;
   }
 
   // Function to perform search in different directions
@@ -151,11 +162,13 @@ THE CONST IS JUST IN PLACE FOR ERROR FIXING THE MATH IS NOT WRONG
 
   // Remove duplicates before returning
   const uniqueResults = removeDuplicates(allResults);
+  // remove closed places
+  const finalResults = removeclosedplaces(uniqueResults);
 
-  console.log(`Finished fetching all places. Total places fetched: ${uniqueResults.length}`);
-  console.log(`Total unique places fetched: ${uniqueResults.length}`);
-  console.log("Unique places: ", uniqueResults);
+  console.log(`Finished fetching all places. Total places fetched: ${allResults.length}`);
+  console.log(`Total unique places fetched: ${finalResults.length}`);
+  console.log("Unique places: ", finalResults);
   console.log('Returning unique places to processor...');
 
-  return uniqueResults;
+  return finalResults;
 }

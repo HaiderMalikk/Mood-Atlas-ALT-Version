@@ -1,6 +1,6 @@
 'use client';
 
-export async function fetchFlaskData(places, mood, hobby, activity, gonow) {
+export async function fetchFlaskData(places, mood, hobby, activity) {
   console.log("Getting response from Flask API in flask call file");
 
   try {
@@ -16,7 +16,6 @@ export async function fetchFlaskData(places, mood, hobby, activity, gonow) {
         mood,
         hobby,
         activity,
-        gonow,
       }),
     });
 

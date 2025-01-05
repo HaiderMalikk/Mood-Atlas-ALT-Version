@@ -3,6 +3,12 @@
 *"Chart your feelings, discover your destination"*
 
 ---
+<h1 href="https://mood-atlas.vercel.app" style="border-bottom: none; margin: 0; color:orange" >Try Out Mood Atlas</h1>
+<a href="https://mood-atlas.vercel.app" style="color: blue;">Check It Out Here
+<img src="./assets/link.png" alt="Home" width="50" height="auto" />
+</a>
+
+---
 ### The Production Build For This App Is a Little Different, <a href="https://github.com/HaiderMalikk/mood-atlas-production_build" style="color: blue;">Check That Out Here</a>.
 
 ---

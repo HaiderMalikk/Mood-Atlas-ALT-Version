@@ -382,3 +382,9 @@ Top left: node terminal for next.js, Top middle: python flask terminal for backe
 
 - Postman for API testing 
 <img src="./assets/post.png" alt="Home" width="600" height="auto" />
+
+- Open AI usage dashboard:
+<img src="./assets/openai.png" alt="Home" width="600" height="auto" />
+
+- Googles GCP usage dashboard:
+<img src="./assets/gcp.png" alt="Home" width="600" height="auto" />

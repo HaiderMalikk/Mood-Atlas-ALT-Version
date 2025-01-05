@@ -18,7 +18,8 @@ const WelcomePage = () => {
   useEffect(() => {
     const getcoordinates = async () => {
     const coordinates = await fetchUserCoordinates();
-    if (coordinates) {
+    // check if a number
+    if (coordinates && typeof coordinates.lat === 'number' && typeof coordinates.lng === 'number') {
       setUserCoordinates(coordinates);
     }
     else {

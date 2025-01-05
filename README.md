@@ -371,7 +371,7 @@ Create And Deploy This Project As A Web App, Giving user free access to the webs
 
 
 - After submitting the form:
-<img src="./assets/afterpromt.png" alt="Home" width="600" height="auto" />
+<img src="./assets/afterprompt.png" alt="Home" width="600" height="auto" />
 
 - Backend Servers (running locally)
 Top left: node terminal for next.js, Top middle: python flask terminal for backend output, Top right: next.console for debugging, middle: flask website for displaying the returned response from api backend, bottom: SpringBoot terminal for backend user data management (connected to SQL)

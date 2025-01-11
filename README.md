@@ -396,4 +396,4 @@ Top left: node terminal for next.js, Top middle: python flask terminal for backe
 <img src="./assets/gcp.png" alt="Home" width="600" height="auto" />
 
 - Vercel dashboard for deployment (first 5 Days!):
-<img src="./assets/vercel.png" alt="Home" width="600" height="auto
+<img src="./assets/vercel.png" alt="Home" width="600" height="auto " />

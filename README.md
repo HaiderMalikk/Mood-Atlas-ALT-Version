@@ -88,6 +88,7 @@ MOOD-ATLAS/
 ---
 
 **Ex Data, Google Places API's nearby search returns us a json file that looks something like this, this data is needed for the website to work**
+**NOTE I USED OLD PLACES API FOR THIS VERSION, BUT THE PRODUCTION VERSION USES THE NEW PLACES API**
 
 ```json
 {
@@ -395,5 +396,5 @@ Top left: node terminal for next.js, Top middle: python flask terminal for backe
 - Googles GCP usage dashboard:
 <img src="./assets/gcp.png" alt="Home" width="600" height="auto" />
 
-- Vercel dashboard for deployment (first 5 Days!):
+- Vercel dashboard for deployment (last 7 Days!):
 <img src="./assets/vercel.png" alt="Home" width="600" height="auto " />

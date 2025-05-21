@@ -11,7 +11,7 @@
 
 ---
 # THIS VERSION (REPOSITORY) IS OUTDATED SEE THE NEW PRODUCTION VERSION BELOW
-### The Production Build For This App Is a Little Different but is the latest and greatest, <a href="https://github.com/HaiderMalikk/mood-atlas-production_build" style="color: blue;">Check That Out Here</a>.
+### The Production Build For This App Is a Little Different but is the latest and greatest, <a href="https://github.com/HaiderMalikk/Mood-Atlas" style="color: blue;">Check That Out Here</a>.
 
 ---
 
